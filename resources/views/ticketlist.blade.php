@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             @foreach($carvings as $carving)
-                <div class="col-md-6">
+                <div class="col-md-10">
                     <div class="contenido">
                         <div class="ticket">
                             <div class="hqr">
@@ -76,16 +76,10 @@
 @endsection
 
 <style>
-    .float-left {
-        float: left;
-        width: 300px;
-        / / or 33 % for equal width independent of parent width
-    }
-
     .contenido {
         margin: 30px;
-        max-height: 430px;
-        max-width: 245px;
+        max-height: 800px;
+        max-width: 370px;
         overflow: hidden;
         box-shadow: 0 0 10px rgb(202, 202, 204);
         background-color:;
@@ -99,7 +93,7 @@
     }
 
     .tinfo {
-        font-size: 0.5em;
+        font-size: 1.4em;
         font-weight: 300;
         color: #c3c3c3;
         font-family: 'Roboto', sans-serif;
@@ -109,7 +103,7 @@
     }
 
     .tdata {
-        font-size: 0.7em;
+        font-size: 1.4em;
         font-weight: 400;
         font-family: 'Roboto', sans-serif;
         letter-spacing: 0.5px;

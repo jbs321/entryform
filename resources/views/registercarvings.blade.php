@@ -25,6 +25,7 @@ $price = (count($carvings)) > 3 ? 0 : 6;
                            "Intermediate" => "Intermediate",
                            "Novice"       => "Novice",
                            "Advanced"     => "Advanced",
+                           "Expert"       => "Expert",
                     ], null,  [
                         "id"            => "skill",
                         "required"      => "required",

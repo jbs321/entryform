@@ -179,11 +179,13 @@ class CarvingController extends Controller
 
     public function delete(Carving $carving)
     {
-        $carving->delete();
-
         /** @var User $user */
         $user = Auth::user();
         $carvings = $user->carvings;
+
+        if($carving->user()->id === $user->id) {
+            $carving->delete();
+        }
 
         return view('home', ['carvings' => $carvings]);
     }
