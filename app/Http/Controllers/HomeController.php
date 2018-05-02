@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        /** @var User $user */
+        $user = Auth::user();
+        $carvings = $user->carvings;
+
+        return view('home', ['carvings' => $carvings]);
+    }
+
+    static function calcPrice(int $numCarvings = 0) {
+        if($numCarvings == 1) {
+            return 6;
+        } elseif($numCarvings == 2) {
+            return 12;
+        } elseif($numCarvings == 3) {
+            return 18;
+        }
+
+        return 24;
     }
 }

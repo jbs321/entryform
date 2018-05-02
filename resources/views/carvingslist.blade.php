@@ -1,12 +1,11 @@
 <?php
-$carvings = \Illuminate\Support\Facades\Auth::user()->carvings;
 $carvings = $carvings->toArray();
 
 if(count($carvings) > 0):
 ?>
 
 <div class="card" style="margin-bottom: 30px;">
-    <div class="card-header">{{ __('Existing Carvings') }}</div>
+    <div class="card-header">{{ __('Existing Carvings') }} <span style="font-weight: bold;float: right;">Total Price: {!! \App\Http\Controllers\HomeController::calcPrice(count($carvings)) !!}$ CAD</span></div>
     <div class="card-body" style="overflow-y: scroll;height: 300px;padding: 0;">
         <table class="table table-striped" style="margin: 0">
             <thead>

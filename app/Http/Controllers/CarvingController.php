@@ -170,14 +170,22 @@ class CarvingController extends Controller
         $newCarving->fill($request->all());
         $newCarving->save();
 
-        return view('home');
+        /** @var User $user */
+        $user = Auth::user();
+        $carvings = $user->carvings;
+
+        return view('home', ['carvings' => $carvings]);
     }
 
     public function delete(Carving $carving)
     {
         $carving->delete();
 
-        return view('home');
+        /** @var User $user */
+        $user = Auth::user();
+        $carvings = $user->carvings;
+
+        return view('home', ['carvings' => $carvings]);
     }
 }
 

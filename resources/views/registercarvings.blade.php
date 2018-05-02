@@ -1,3 +1,8 @@
+<?php
+$carvings = $carvings->toArray();
+$price = (count($carvings)) > 3 ? 0 : 6;
+?>
+
 <div class="card">
     <div class="card-header">Add Carving</div>
 
@@ -130,6 +135,8 @@
         </form>
 
     </div>
+
+    <div class="card-footer" style="font-weight: bold">Price: {!! $price !!}$ CAD</div>
 </div>
 <script>
     function onChangeDivision() {
