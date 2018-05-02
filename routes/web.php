@@ -6,3 +6,5 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::name('carving')->post('/carving', 'CarvingController@create')->middleware('auth');;
 Route::get('/carving/{carving}', 'CarvingController@delete')->middleware('auth');
+
+Route::get('/tickets', 'HomeController@showTicket')->middleware('auth');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Carving;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,13 @@ class HomeController extends Controller
         $carvings = $user->carvings;
 
         return view('home', ['carvings' => $carvings]);
+    }
+
+    public function showTicket()
+    {
+        $carvings = Carving::all();
+
+        return view('ticketlist', ['carvings' => $carvings]);
     }
 
     static function calcPrice(int $numCarvings = 0) {
