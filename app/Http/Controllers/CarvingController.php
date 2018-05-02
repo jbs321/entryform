@@ -183,7 +183,7 @@ class CarvingController extends Controller
         $user = Auth::user();
         $carvings = $user->carvings;
 
-        if($carving->user()->id === $user->id) {
+        if($carving->user->id === $user->id) {
             $carving->delete();
         }
 
