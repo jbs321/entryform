@@ -14,5 +14,5 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::middleware(['auth', \App\Http\Middleware\checkAdmin::class])->group(function () {
-    Route::get('/admin', 'AdminController@viewDashboard');
+    Route::name('admin')->get('/admin', 'AdminController@viewDashboard');
 });

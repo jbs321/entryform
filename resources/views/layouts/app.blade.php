@@ -57,6 +57,18 @@
                                         {{ __('Logout') }}
                                     </a>
 
+                                    <?php
+                                        $user = \Illuminate\Support\Facades\Auth::user();
+                                        if($user->is_admin):
+                                    ?>
+                                    <a class="dropdown-item" href="{{ route('admin') }}">
+                                        Admin Dashboard
+                                    </a>
+
+                                    <?php
+                                        endif;
+                                    ?>
+
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
