@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Carving;
 use App\Http\Requests\NewCarvingRequest;
-use http\Env\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CarvingController extends Controller
@@ -177,15 +177,18 @@ class CarvingController extends Controller
         return view('home', ['carvings' => $carvings]);
     }
 
-    public function delete(Carving $carving)
+    public function delete(Request $request)
     {
+        $carving = Carving::where('id', $request->id)->first();
+
         /** @var User $user */
         $user = Auth::user();
-        $carvings = $user->carvings;
 
-//        if($carving->user->id === $user->id) {
+        if($carving->user->id === $user->id) {
             $carving->delete();
-//        }
+        }
+
+        $carvings = $user->carvings;
 
         return view('home', ['carvings' => $carvings]);
     }

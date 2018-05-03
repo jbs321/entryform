@@ -9,7 +9,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tickets', 'HomeController@showTicket');
 
     Route::name('carving')->post('/carving', 'CarvingController@create');
-    Route::get('/carving/{carving}', 'CarvingController@delete');
+    Route::post('/carving/delete', 'CarvingController@delete');
 });
 
 

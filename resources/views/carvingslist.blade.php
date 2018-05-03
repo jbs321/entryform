@@ -1,7 +1,5 @@
 <?php
 $carvings = $carvings->toArray();
-
-
 ?>
 
 <div class="card" style="margin-bottom: 30px;">
@@ -30,7 +28,11 @@ $carvings = $carvings->toArray();
                         <td>{!! $carving['description'] !!}</td>
                         <td>{!! $carving['is_for_sale'] !!}</td>
                         <td>
-                            <button type="button" class="btn btn-danger" onclick="onDeleteCarving({{$carving['id']}})">Delete</button>
+                            <form action="/carving/delete" method="POST">
+                                {{csrf_field()}}
+                                <input type="hidden" value="{{$carving['id']}}" name="id" id="id">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -46,10 +48,6 @@ $carvings = $carvings->toArray();
 </div>
 
 <script>
-    function onDeleteCarving(carvingId) {
-        window.location = '/carving/' + carvingId;
-    }
-
     function addCarving() {
         $('.add-carving').css('display','block');
     }
