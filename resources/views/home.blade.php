@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-xs-12 col-md-10">
                 @include('carvingslist')
                 @include('registercarvings')
             </div>

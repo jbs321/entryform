@@ -3,7 +3,7 @@ $carvings = $carvings->toArray();
 $price = (count($carvings)) > 3 ? 0 : 6;
 ?>
 
-<div class="card">
+<div class="card add-carving">
     <div class="card-header">Add Carving</div>
 
     <div class="card-body">
@@ -22,8 +22,8 @@ $price = (count($carvings)) > 3 ? 0 : 6;
                 <div class="col-md-6">
                     {!! Form::select('skill', [
                            "Student"      => "Student",
-                           "Intermediate" => "Intermediate",
                            "Novice"       => "Novice",
+                           "Intermediate" => "Intermediate",
                            "Advanced"     => "Advanced",
                            "Expert"       => "Expert",
                     ], null,  [
@@ -76,11 +76,11 @@ $price = (count($carvings)) > 3 ? 0 : 6;
                             class={{"col-md-12 form-control " . $isValid}}>
 
                         @foreach(\App\Http\Controllers\CarvingController::CATEGORIES as $division => $categories)
-                            @foreach($categories as $category)
-                                <option value="{{$category}}"
+                            @foreach($categories as $id => $category)
+                                <option value="{!! "$id - $category" !!}"
                                         division="{{$division}}"
                                         title="{{$division}}"
-                                >{!! $category !!}</option>
+                                >{!! "$id - $category" !!}</option>
                             @endforeach
                         @endforeach
                     </select>
@@ -128,7 +128,7 @@ $price = (count($carvings)) > 3 ? 0 : 6;
 
             <div class="form-group row mb-0">
                 <div class="col-md-6 offset-md-4">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" id="submit-carving">
                         {{ __('Submit Carving') }}
                     </button>
                 </div>
@@ -151,5 +151,9 @@ $price = (count($carvings)) > 3 ? 0 : 6;
 
     $(function () {
         onChangeDivision();
+
+        $('#submit-carving').on('click', function(event) {
+            alert("You have successfully registered a Carving for the show");
+        });
     });
 </script>

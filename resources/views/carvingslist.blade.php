@@ -5,7 +5,7 @@ if(count($carvings) > 0):
 ?>
 
 <div class="card" style="margin-bottom: 30px;">
-    <div class="card-header">{{ __('Existing Carvings') }} <span style="font-weight: bold;float: right;">Total Price: {!! \App\Http\Controllers\HomeController::calcPrice(count($carvings)) !!}$ CAD</span></div>
+    <div class="card-header">{{ __('Registered Carvings') }} <span style="font-weight: bold;float: right;">Total Price: {!! \App\Http\Controllers\HomeController::calcPrice(count($carvings)) !!}$ CAD</span></div>
     <div class="card-body" style="overflow-y: scroll;height: 300px;padding: 0;">
         <table class="table table-striped" style="margin: 0">
             <thead>
@@ -30,14 +30,18 @@ if(count($carvings) > 0):
                         <td>{!! $carving['description'] !!}</td>
                         <td>{!! $carving['is_for_sale'] !!}</td>
                         <td>
-                            <button type="button" class="btn btn-danger" onclick="onDeleteCarving({{$carving['id']}})">
-                                Delete
-                            </button>
+                            <button type="button" class="btn btn-danger" onclick="onDeleteCarving({{$carving['id']}})">Delete</button>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+    </div>
+
+    <div class="card-footer">
+        <button type="button" class="btn btn-info" onclick="addCarving()">
+            Register New Carving
+        </button>
     </div>
 </div>
 <?php
@@ -47,5 +51,9 @@ endif;
 <script>
     function onDeleteCarving(carvingId) {
         window.location = '/carving/' + carvingId;
+    }
+
+    function addCarving() {
+        $('.add-carving').css('display','block');
     }
 </script>
