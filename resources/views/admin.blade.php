@@ -32,10 +32,9 @@
                                     <td scope="row">{!! $carving->phone_number !!}</td>
                                     <td>{!! $carving->skill !!}</td>
                                     <td>{!! $carving->division !!}</td>
-                                    <td>{!! $carving->category !!}</td>
+                                    <td>{!! $carving->category ." - ".\App\Http\Controllers\CarvingController::CATEGORIES[$carving->division][$carving->category] !!}</td>
                                     <td>{!! $carving->description !!}</td>
                                     <td>{!! $carving->is_for_sale ? "Yes" : "No" !!}</td>
-
                                 </tr>
                             @endforeach
                             </tbody>

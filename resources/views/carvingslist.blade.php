@@ -1,7 +1,7 @@
 <?php
 $carvings = $carvings->toArray();
 
-if(count($carvings) > 0):
+
 ?>
 
 <div class="card" style="margin-bottom: 30px;">
@@ -26,7 +26,7 @@ if(count($carvings) > 0):
                         <th scope="row">{!! $carving['id'] !!}</th>
                         <td>{!! $carving['skill'] !!}</td>
                         <td>{!! $carving['division'] !!}</td>
-                        <td>{!! $carving['category'] !!}</td>
+                        <td>{!! $carving['category']!!}</td>
                         <td>{!! $carving['description'] !!}</td>
                         <td>{!! $carving['is_for_sale'] !!}</td>
                         <td>
@@ -44,9 +44,6 @@ if(count($carvings) > 0):
         </button>
     </div>
 </div>
-<?php
-endif;
-?>
 
 <script>
     function onDeleteCarving(carvingId) {

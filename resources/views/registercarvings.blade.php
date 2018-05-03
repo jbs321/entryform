@@ -77,7 +77,7 @@ $price = (count($carvings)) > 3 ? 0 : 6;
 
                         @foreach(\App\Http\Controllers\CarvingController::CATEGORIES as $division => $categories)
                             @foreach($categories as $id => $category)
-                                <option value="{!! "$id - $category" !!}"
+                                <option value="{!! $id !!}"
                                         division="{{$division}}"
                                         title="{{$division}}"
                                 >{!! "$id - $category" !!}</option>
