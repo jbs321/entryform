@@ -45,6 +45,7 @@
                         @guest
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                             <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                            <li><a class="nav-link" href="http://richmondcarvers.com">RichmondCarvers.com</a></li>
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -65,6 +66,8 @@
                                     <a class="dropdown-item" href="{{ route('admin') }}">
                                         Admin Dashboard
                                     </a>
+
+                                    <a class="dropdown-item" href="http://richmondcarvers.com">Richmondcarvers.com</a>
 
                                     <?php
                                         endif;
