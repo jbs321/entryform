@@ -44,6 +44,10 @@ $carvings = $carvings->toArray();
         <button type="button" class="btn btn-info" onclick="addCarving()">
             Register New Carving
         </button>
+
+        <?php if(count($carvings) > 0): ?>
+        <a href="/carving/excel/{{\Illuminate\Support\Facades\Auth::user()->id}}">Download Excel</a>
+        <?php endif; ?>
     </div>
 </div>
 

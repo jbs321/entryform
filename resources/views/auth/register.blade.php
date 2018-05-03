@@ -107,7 +107,7 @@
                             <label for="province" class="col-md-4 col-form-label text-md-right">{{ __('Province') }}</label>
 
                             <div class="col-md-6">
-                                <input id="province" type="text" class="form-control{{ $errors->has('province') ? ' is-invalid' : '' }}" name="province" value="{{ old('province') }}" required autofocus>
+                                <input id="province" type="text" class="form-control{{ $errors->has('province') ? ' is-invalid' : '' }}" name="province" value="{{ old('province') }}" placeholder="eg. British Colombia" required autofocus>
 
                                 @if ($errors->has('province'))
                                     <span class="invalid-feedback">
@@ -121,7 +121,7 @@
                             <label for="postal_code" class="col-md-4 col-form-label text-md-right">{{ __('Postal Code') }}</label>
 
                             <div class="col-md-6">
-                                <input id="postal_code" type="text" class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}" name="postal_code" value="{{ old('postal_code') }}" required autofocus>
+                                <input id="postal_code" type="text" class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}" name="postal_code" value="{{ old('postal_code') }}" placeholder="eg. v6p4t9" required autofocus>
 
                                 @if ($errors->has('postal_code'))
                                     <span class="invalid-feedback">
@@ -135,7 +135,7 @@
                             <label for="phone_number" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phone_number" type="text" class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}" name="phone_number" value="{{ old('phone_number') }}" required autofocus>
+                                <input id="phone_number" type="text" class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}" name="phone_number" value="{{ old('phone_number') }}" placeholder="eg. 7788820753" required autofocus>
 
                                 @if ($errors->has('phone_number'))
                                     <span class="invalid-feedback">

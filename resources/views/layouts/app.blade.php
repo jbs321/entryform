@@ -1,3 +1,7 @@
+<?php
+$user = \Illuminate\Support\Facades\Auth::user();
+?>
+
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -52,7 +56,9 @@
                             <a class="nav-link" href="{{ route('logout') }}"
                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
-                            </a></li>
+                            </a>
+                        </li>
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -61,19 +67,20 @@
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                <?php
-                                $user = \Illuminate\Support\Facades\Auth::user();
-                                if($user->is_admin):
-                                ?>
-                                <a class="dropdown-item" href="{{ route('admin') }}">
-                                    Admin Dashboard
-                                </a>
+                                <?php if($user->is_admin): ?>
 
-                                <a class="dropdown-item" href="http://richmondcarvers.com">Richmondcarvers.com</a>
+                                    <a class="dropdown-item" href="{{ route('admin') }}">
+                                        Admin Dashboard
+                                    </a>
+                                <?php endif; ?>
 
-                                <?php
-                                endif;
-                                ?>
+                                    <a class="dropdown-item" href="/">
+                                        My Carvings
+                                    </a>
+
+                                    <a class="dropdown-item" href="http://richmondcarvers.com">
+                                        Richmondcarvers.com
+                                    </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                       style="display: none;">

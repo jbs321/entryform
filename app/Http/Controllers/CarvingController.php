@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Carving;
+use App\Exports\CarvingsExports;
 use App\Http\Requests\NewCarvingRequest;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CarvingController extends Controller
 {
@@ -22,7 +25,7 @@ class CarvingController extends Controller
     const CATEGORY_K = 'K: Special Types';
     const CATEGORY_L = 'L: Relief';
     const CATEGORY_M = 'M: Relief';
-    const CATEGORY_N = 'N: Northwest Coast Style';
+    const CATEGORY_N = 'N: Native Northwest Coast Style';
     const CATEGORY_O = 'O: Other Native American Styles';
     const CATEGORY_P = 'P: Seminar Carvings';
     const CATEGORY_Q = 'Q: Stone Carvings';
@@ -163,6 +166,11 @@ class CarvingController extends Controller
         ],
     ];
 
+    public function __construct(\Maatwebsite\Excel\Excel $excel)
+    {
+        $this->excel = $excel;
+    }
+
     public function create(NewCarvingRequest $request)
     {
         $newCarving          = new Carving();
@@ -191,6 +199,42 @@ class CarvingController extends Controller
         $carvings = $user->carvings;
 
         return view('home', ['carvings' => $carvings]);
+    }
+
+    public function downloadCarvingsForUser(User $user)
+    {
+        $carvings = $user->carvings;
+
+        $carvings = $carvings->map(function(Carving $carving) use ($user){
+            $carving->is_for_sale = ($carving->is_for_sale) ? "yes" : "no";
+            $carving->user_id = $user->fname . " " . $user->lname;
+            $carving->division = substr($carving->division, 0, 1);
+            unset($carving->created_at);
+            unset($carving->updated_at);
+
+            return $carving;
+        });
+
+        return Excel::download(new CarvingsExports($carvings), 'carvings.xlsx');
+    }
+
+    public function downloadCarvingsForAll()
+    {
+
+        $carvings = Carving::all();
+
+        $carvings = $carvings->map(function(Carving $carving) {
+            $user=$carving->user()->first();
+            $carving->is_for_sale = ($carving->is_for_sale) ? "yes" : "no";
+            $carving->user_id = $user->fname . " " . $user->lname;
+            $carving->division = substr($carving->division, 0, 1);
+            unset($carving->created_at);
+            unset($carving->updated_at);
+
+            return $carving;
+        });
+
+        return Excel::download(new CarvingsExports($carvings), 'carvings.xlsx');
     }
 }
 

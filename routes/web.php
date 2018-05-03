@@ -10,9 +10,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::name('carving')->post('/carving', 'CarvingController@create');
     Route::post('/carving/delete', 'CarvingController@delete');
+    Route::get('/carving/excel/{user}', 'CarvingController@downloadCarvingsForUser');
 });
 
 
 Route::middleware(['auth', \App\Http\Middleware\checkAdmin::class])->group(function () {
     Route::name('admin')->get('/admin', 'AdminController@viewDashboard');
+    Route::get('carving/print/all', 'CarvingController@downloadCarvingsForAll');
 });

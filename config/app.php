@@ -161,6 +161,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //Custom
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ],
 
     /*
@@ -213,6 +216,7 @@ return [
         //CUSTOM
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 
