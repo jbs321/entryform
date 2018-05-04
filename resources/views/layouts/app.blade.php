@@ -72,6 +72,10 @@ $user = \Illuminate\Support\Facades\Auth::user();
                                     <a class="dropdown-item" href="{{ route('admin') }}">
                                         Admin Dashboard
                                     </a>
+
+                                    <a class="dropdown-item" href="/tickets">
+                                        Tickets (Under Construction)
+                                    </a>
                                 <?php endif; ?>
 
                                     <a class="dropdown-item" href="/">
