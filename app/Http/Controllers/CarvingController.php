@@ -166,9 +166,24 @@ class CarvingController extends Controller
         ],
     ];
 
+    const HEADERS = [
+        'Tag Number',
+        'Name',
+        'Skill',
+        'Division',
+        'Category',
+        'Description',
+        'Is for sale?',
+    ];
+
     public function __construct(\Maatwebsite\Excel\Excel $excel)
     {
         $this->excel = $excel;
+    }
+
+    public function index()
+    {
+        return view('home');
     }
 
     public function create(NewCarvingRequest $request)
@@ -178,63 +193,69 @@ class CarvingController extends Controller
         $newCarving->fill($request->all());
         $newCarving->save();
 
-        /** @var User $user */
-        $user = Auth::user();
-        $carvings = $user->carvings;
-
-        return view('home', ['carvings' => $carvings]);
+        return view('home');
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, Carving $carving)
     {
-        $carving = Carving::where('id', $request->id)->first();
+        $carving->delete();
 
-        /** @var User $user */
-        $user = Auth::user();
-
-        if($carving->user->id === $user->id) {
-            $carving->delete();
+        if(Auth::user()->is_admin) {
+            return view('admin');
         }
 
-        $carvings = $user->carvings;
-
-        return view('home', ['carvings' => $carvings]);
+        return view('home');
     }
 
     public function downloadCarvingsForUser(User $user)
     {
         $carvings = $user->carvings;
-
-        $carvings = $carvings->map(function(Carving $carving) use ($user){
+        $carvings = $carvings->map(function (Carving $carving) use ($user) {
             $carving->is_for_sale = ($carving->is_for_sale) ? "yes" : "no";
-            $carving->user_id = $user->fname . " " . $user->lname;
-            $carving->division = substr($carving->division, 0, 1);
+            $carving->user_id     = $user->fname . " " . $user->lname;
+            $carving->division    = substr($carving->division, 0, 1);
             unset($carving->created_at);
             unset($carving->updated_at);
 
             return $carving;
         });
 
-        return Excel::download(new CarvingsExports($carvings), 'carvings.xlsx');
+        return Excel::download(new CarvingsExports($carvings, self::HEADERS), 'carvings.xlsx');
     }
 
     public function downloadCarvingsForAll()
     {
-
         $carvings = Carving::all();
-
-        $carvings = $carvings->map(function(Carving $carving) {
-            $user=$carving->user()->first();
+        $carvings = $carvings->map(function (Carving $carving) {
+            $user                 = $carving->user()->first();
             $carving->is_for_sale = ($carving->is_for_sale) ? "yes" : "no";
-            $carving->user_id = $user->fname . " " . $user->lname;
-            $carving->division = substr($carving->division, 0, 1);
+            $carving->user_id     = $user->fname . " " . $user->lname;
+            $carving->division    = substr($carving->division, 0, 1);
             unset($carving->created_at);
             unset($carving->updated_at);
 
             return $carving;
         });
 
-        return Excel::download(new CarvingsExports($carvings), 'carvings.xlsx');
+
+        return Excel::download(new CarvingsExports($carvings, self::HEADERS), 'carvings.xlsx');
+    }
+
+    public function edit(Carving $carving)
+    {
+        return view('editcarving', ['carving' => $carving]);
+    }
+
+    public function update(NewCarvingRequest $request, Carving $carving)
+    {
+        $carving->fill($request->all());
+        $carving->save();
+
+        if(Auth::user()->is_admin) {
+            return view('admin');
+        }
+
+        return $this->index();
     }
 }
 

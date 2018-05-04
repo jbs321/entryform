@@ -1,3 +1,12 @@
+<?php
+use App\Carving;
+$carvings = Carving::all();
+$carvings = $carvings->map(function(Carving $carving) {
+    $carving->user;
+    return $carving;
+});
+?>
+
 @extends('layouts.app')
 
 @section('content')
@@ -10,41 +19,55 @@
                             Download Excel
                         </a></div>
                     <div class="card-body" style="padding: 0;">
-                        <table class="table table-striped" style="margin: 0">
-                            <thead>
-                            <tr>
-                                <th scope="col">Tag Number</th>
-                                <th scope="col">Full Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Phone</th>
-
-                                <th scope="col">Skill Level</th>
-                                <th scope="col">Division</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">For Sale?</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            @foreach($carvings as $carving)
+                        <div style="overflow-y: scroll;max-height: 600px">
+                            <table class="table table-striped" style="margin: 0">
+                                <thead>
                                 <tr>
-                                    <td scope="row">{!! $carving->id !!}</td>
-                                    <td scope="row">{!! $carving->user->fname !!} {!! $carving->user->lname !!}</td>
-                                    <td scope="row">{!! $carving->user->email !!}</td>
-                                    <td scope="row">{!! $carving->phone_number !!}</td>
-                                    <td>{!! $carving->skill !!}</td>
-                                    <td>{!! $carving->division !!}</td>
-                                    <td>{!! $carving->category ." - ".\App\Http\Controllers\CarvingController::CATEGORIES[$carving->division][$carving->category] !!}</td>
-                                    <td>{!! $carving->description !!}</td>
-                                    <td>{!! $carving->is_for_sale ? "Yes" : "No" !!}</td>
+                                    <th scope="col">Tag Number</th>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Phone</th>
+
+                                    <th scope="col">Skill Level</th>
+                                    <th scope="col">Division</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">For Sale?</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+
+                                <tbody>
+                                @foreach($carvings as $carving)
+                                    <tr>
+                                        <td scope="row">{!! $carving->id !!}</td>
+                                        <td scope="row">{!! $carving->user->fname !!} {!! $carving->user->lname !!}</td>
+                                        <td scope="row">{!! $carving->user->email !!}</td>
+                                        <td scope="row">{!! $carving->phone_number !!}</td>
+                                        <td>{!! $carving->skill !!}</td>
+                                        <td>{!! $carving->division !!}</td>
+                                        <td>{!! $carving->category ." - ".\App\Http\Controllers\CarvingController::CATEGORIES[$carving->division][$carving->category] !!}</td>
+                                        <td>{!! $carving->description !!}</td>
+                                        <td>{!! $carving->is_for_sale ? "Yes" : "No" !!}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-info" onclick="window.location = '{{'/admin/carving/'. $carving->id .'/edit'}}'" style="float: left">Edit</button>
+                                            <form action="{{'/admin/carving/'. $carving->id .'/delete'}}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger" style="float: left">Delete</button>
+                                            </form>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
+                @include('userslist');
             </div>
         </div>
     </div>
 @endsection
+

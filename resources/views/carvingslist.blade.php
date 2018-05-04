@@ -1,5 +1,5 @@
 <?php
-$carvings = $carvings->toArray();
+    $carvings = \Illuminate\Support\Facades\Auth::user()->carvings->toArray();
 ?>
 
 <div class="card" style="margin-bottom: 30px;">
@@ -14,7 +14,7 @@ $carvings = $carvings->toArray();
                 <th scope="col">Category</th>
                 <th scope="col">Description</th>
                 <th scope="col">For Sale?</th>
-                <th scope="col">delete?</th>
+                <th scope="col">Actions</th>
             </tr>
             </thead>
 
@@ -28,7 +28,8 @@ $carvings = $carvings->toArray();
                         <td>{!! $carving['description'] !!}</td>
                         <td>{!! $carving['is_for_sale'] !!}</td>
                         <td>
-                            <form action="/carving/delete" method="POST">
+                            <button type="button" class="btn btn-info" onclick="window.location = '{{'/carving/'.$carving['id'].'/edit'}}'" style="float: left">Edit</button>
+                            <form action="/carving/{!! $carving['id'] !!}/delete" method="POST" style="float: left">
                                 {{csrf_field()}}
                                 <input type="hidden" value="{{$carving['id']}}" name="id" id="id">
                                 <button type="submit" class="btn btn-danger">Delete</button>

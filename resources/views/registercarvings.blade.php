@@ -1,6 +1,6 @@
 <?php
-$carvings = $carvings->toArray();
-$price = (count($carvings)) > 3 ? 0 : 6;
+$carvings = \Illuminate\Support\Facades\Auth::user()->carvings->toArray();
+$price    = (count($carvings)) > 3 ? 0 : 6;
 ?>
 
 <div class="card add-carving">
@@ -97,8 +97,9 @@ $price = (count($carvings)) > 3 ? 0 : 6;
 
                 <div class="col-md-6">
             <textarea id="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
-                      name="description" value="{{ old('description') }}" required autofocus
-                      placeholder="Description of carving and type of wood or other media" rows="6"></textarea>
+                      name="description" required autofocus
+                      placeholder="Description of carving and type of wood or other media"
+                      rows="6">{{ old('description') }}</textarea>
 
                     @if ($errors->has('description'))
                         <span class="invalid-feedback"><strong>{{ $errors->first('description') }}</strong></span>
@@ -152,7 +153,7 @@ $price = (count($carvings)) > 3 ? 0 : 6;
     $(function () {
         onChangeDivision();
 
-        $('#submit-carving').on('click', function(event) {
+        $('#submit-carving').on('click', function (event) {
             alert("You have successfully registered a Carving for the show");
         });
     });

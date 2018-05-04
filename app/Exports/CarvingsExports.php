@@ -8,8 +8,6 @@
 
 namespace App\Exports;
 
-
-use App\Carving;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -17,10 +15,12 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class CarvingsExports implements FromCollection, WithHeadings
 {
     public $data;
+    public $headers;
 
-    public function __construct(Collection $carvings)
+    public function __construct(Collection $data, array $headers = [])
     {
-        $this->data = $carvings;
+        $this->data = $data;
+        $this->headers = $headers;
     }
 
     public function collection()
@@ -30,14 +30,6 @@ class CarvingsExports implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return [
-            'Tag Number',
-            'Name',
-            'Skill',
-            'Division',
-            'Category',
-            'Description',
-            'Is for sale?',
-        ];
+        return $this->headers;
     }
 }

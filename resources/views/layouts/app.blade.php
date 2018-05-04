@@ -78,6 +78,10 @@ $user = \Illuminate\Support\Facades\Auth::user();
                                         My Carvings
                                     </a>
 
+                                    <a class="dropdown-item" href="/user/{{$user->id}}/edit">
+                                        My Profile
+                                    </a>
+
                                     <a class="dropdown-item" href="http://richmondcarvers.com">
                                         Richmondcarvers.com
                                     </a>

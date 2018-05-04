@@ -163,7 +163,6 @@ return [
 
         //Custom
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
     ],
 
     /*
