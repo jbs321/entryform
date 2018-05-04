@@ -40,4 +40,22 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Carving');
     }
+
+    /**
+     * Event Handler for when User Is being deleted
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // Attach event handler, on deleting of the user
+        User::deleting(function($user)
+        {
+            // Delete all tricks that belong to this user
+            /** @var Carving $carving */
+            foreach ($user->carvings as $carving) {
+                $carving->delete();
+            }
+        });
+    }
 }
