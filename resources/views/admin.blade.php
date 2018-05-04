@@ -41,8 +41,8 @@ $carvings = $carvings->map(function(Carving $carving) {
                                 @foreach($carvings as $carving)
                                     <tr>
                                         <td scope="row">{!! $carving->id !!}</td>
-                                        <td scope="row">{!! $carving->user->fname !!} {!! $carving->user->lname !!}</td>
-                                        <td scope="row">{!! $carving->user->email !!}</td>
+                                        <td scope="row">{!! $carving->user['fname'] !!} {!! $carving->user['lname'] !!}</td>
+                                        <td scope="row">{!! $carving->user['email'] !!}</td>
                                         <td scope="row">{!! $carving->phone_number !!}</td>
                                         <td>{!! $carving->skill !!}</td>
                                         <td>{!! $carving->division !!}</td>
