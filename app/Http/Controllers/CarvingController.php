@@ -212,7 +212,7 @@ class CarvingController extends Controller
         $carvings = $user->carvings;
         $carvings = $carvings->map(function (Carving $carving) use ($user) {
             $carving->is_for_sale = ($carving->is_for_sale) ? "yes" : "no";
-            $carving->user_id     = $user->fname . " " . $user->lname;
+            $carving->user_id     = $user['fname'] . " " . $user['lname'];
             $carving->division    = substr($carving->division, 0, 1);
             unset($carving->created_at);
             unset($carving->updated_at);
@@ -229,7 +229,7 @@ class CarvingController extends Controller
         $carvings = $carvings->map(function (Carving $carving) {
             $user                 = $carving->user()->first();
             $carving->is_for_sale = ($carving->is_for_sale) ? "yes" : "no";
-            $carving->user_id     = $user->fname . " " . $user->lname;
+            $carving->user_id     = $user['fname'] . " " . $user['lname'];
             $carving->division    = substr($carving->division, 0, 1);
             unset($carving->created_at);
             unset($carving->updated_at);
