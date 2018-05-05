@@ -237,7 +237,6 @@ class CarvingController extends Controller
             return $carving;
         });
 
-
         return Excel::download(new CarvingsExports($carvings, self::HEADERS), 'carvings.xlsx');
     }
 

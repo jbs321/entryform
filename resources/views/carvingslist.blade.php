@@ -42,7 +42,7 @@
     </div>
 
     <div class="card-footer">
-        <button type="button" class="btn btn-info" onclick="addCarving()">
+        <button type="button" class="btn btn-info animated infinite pulse" onclick="addCarving()">
             Register New Carving
         </button>
 
