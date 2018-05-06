@@ -148,9 +148,15 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
 
     $(function () {
         onChangeDivision();
+        <?php
+            if(isset($isSubmitted)):
+        ?>
+            if('{{$isSubmitted}}' == 1) {
+                alert("You have successfully registered a Carving for the show, You can now Logoff or continue adding more Carvings");
+            }
 
-        $('#submit-carving').on('click', function (event) {
-            // alert("You have successfully registered a Carving for the show");
-        });
+        <?php
+            endif;
+        ?>
     });
 </script>

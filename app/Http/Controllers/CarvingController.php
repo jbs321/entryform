@@ -195,7 +195,9 @@ class CarvingController extends Controller
         $newCarving->fill($request->all());
         $newCarving->save();
 
-        return view('home');
+        return view('home', [
+            'isSubmitted' => 1
+        ]);
     }
 
     public function delete(Request $request, Carving $carving)
