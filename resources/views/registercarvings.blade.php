@@ -21,6 +21,7 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
 
                 <div class="col-md-6">
                     {!! Form::select('skill', [
+                           ""             => "",
                            "Student"      => "Student",
                            "Novice"       => "Novice",
                            "Intermediate" => "Intermediate",
@@ -30,13 +31,10 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
                         "id"            => "skill",
                         "required"      => "required",
                         "autofocus"     => "autofocus",
-                        "value"         => old('skill'),
                         "class"         => "form-control " . $errors->has('skill') ? ' is-invalid' : '',
                     ])!!}
                     @if ($errors->has('skill'))
-                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('skill') }}</strong>
-                                    </span>
+                        <span class="invalid-feedback"><strong>{{ $errors->first('skill') }}</strong></span>
                     @endif
                 </div>
             </div>
@@ -50,7 +48,6 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
                         "required"      => "required",
                         "autofocus"     => "autofocus",
                         "onchange"      => "onChangeDivision(this)",
-                        "value"         => old('division'),
                         "class"         => "form-control " . $errors->has('division') ? ' is-invalid' : '',
                     ])!!}
                     @if ($errors->has('division'))
@@ -71,7 +68,6 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
                             id="category"
                             required
                             autofocus
-                            value="{{old('category')}}"
                             style="padding: 0;"
                             class={{"col-md-12 form-control " . $isValid}}>
 
@@ -154,7 +150,7 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
         onChangeDivision();
 
         $('#submit-carving').on('click', function (event) {
-            alert("You have successfully registered a Carving for the show");
+            // alert("You have successfully registered a Carving for the show");
         });
     });
 </script>

@@ -55,5 +55,8 @@
 <script>
     function addCarving() {
         $('.add-carving').css('display','block');
+        $('#skill').val("");
+        $('#division').val("");
+        $('#category').val("");
     }
 </script>

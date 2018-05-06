@@ -32,6 +32,7 @@ class CarvingController extends Controller
     const CATEGORY_R = 'R: Courtesy Carvings';
 
     const DIVISIONS = [
+        ""               => "",
         self::CATEGORY_A => self::CATEGORY_A,
         self::CATEGORY_B => self::CATEGORY_B,
         self::CATEGORY_C => self::CATEGORY_C,
