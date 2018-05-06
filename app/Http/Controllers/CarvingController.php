@@ -175,6 +175,7 @@ class CarvingController extends Controller
         'Category',
         'Description',
         'Is for sale?',
+        'Amount',
     ];
 
     public function __construct(\Maatwebsite\Excel\Excel $excel)
@@ -232,6 +233,13 @@ class CarvingController extends Controller
             $carving->is_for_sale = ($carving->is_for_sale) ? "yes" : "no";
             $carving->user_id     = $user['fname'] . " " . $user['lname'];
             $carving->division    = substr($carving->division, 0, 1);
+            $carving->amount      = "6";
+
+            if($carving->division == self::CATEGORY_R ||
+               $carving->skill == "Student") {
+                $carving->amount      = "0";
+            }
+
             unset($carving->created_at);
             unset($carving->updated_at);
 

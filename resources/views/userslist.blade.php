@@ -2,7 +2,7 @@
 $users = \App\User::all();
 ?>
 <div class="card" style="margin-bottom: 30px;">
-    <div class="card-header">{{ __('Registered Users') }}</div>
+    <div class="card-header">{{ __('Registered Users') }} <a href="/admin/user/downloadExcel">Download Excel</a></div>
     <div class="card-body" style="overflow-y: scroll;height: 300px;padding: 0;">
         {{--<div style="max-height: 600px ;overflow-y: scroll">--}}
             <table class="table table-striped" style="margin: 0">

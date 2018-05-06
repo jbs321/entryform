@@ -36,6 +36,7 @@ Route::middleware(['auth', checkAdmin::class])->group(function () {
 
     Route::get('/admin/user/{user}/edit', 'UserController@edit');
     Route::post('/admin/user/{user}/delete', 'UserController@delete');
+    Route::get('/admin/user/downloadExcel', 'UserController@downloadExcel');
 
     Route::get('/admin/carving/{carving}/edit', 'CarvingController@edit');
     Route::post('/admin/carving/{carving}/delete', 'CarvingController@delete');
