@@ -142,10 +142,12 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
 
         $('#category').children().each(function() {
           $(this).addClass('hidden');
+            $(this).attr("disabled", "true");
         });
 
         $('#category option[division="' + division + '"]').each(function() {
             $(this).removeClass('hidden');
+            $(this).removeAttr("disabled");
         });
         $('#category').val($('#category option[division="' + division + '"]').first().val());
 
