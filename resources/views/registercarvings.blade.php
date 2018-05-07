@@ -134,7 +134,7 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
 
     </div>
 
-    <div class="card-footer" style="font-weight: bold">Price: {!! $price !!}$ CAD</div>
+    <div class="card-footer" id="carving-price" style="font-weight: bold">Price: {!! $price !!}$ CAD</div>
 </div>
 <script>
     function onChangeDivision() {
@@ -154,9 +154,25 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
             if('{{$isSubmitted}}' == 1) {
                 alert("You have successfully registered a Carving for the show, You can now Logoff or continue adding more Carvings");
             }
-
         <?php
             endif;
         ?>
+
+        $('#skill').on("change", function() {
+            if($(this).val() == "Student") {
+                $('#carving-price').html("Price: 0$ CAD");
+            } else {
+                $('#carving-price').html("Price: {{$price}}$ CAD");
+            }
+        });
+
+        $('#division').on("change", function() {
+            if($(this).val() == "R: Courtesy Carvings") {
+                $('#carving-price').html("Price: 0$ CAD");
+            } else {
+                $('#carving-price').html("Price: {{$price}}$ CAD");
+            }
+        });
+
     });
 </script>

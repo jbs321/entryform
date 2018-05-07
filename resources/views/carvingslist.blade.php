@@ -1,10 +1,21 @@
 <?php
-$carvings = \Illuminate\Support\Facades\Auth::user()->carvings->toArray();
+$carvings = \Illuminate\Support\Facades\Auth::user()->carvings;
+
+$countable = $carvings->filter(function (\App\Carving $carving ) {
+    if(strtolower($carving->skill) == "student"
+       ||$carving->division == \App\Http\Controllers\CarvingController::CATEGORY_R ) {
+        return false;
+    }
+
+    return true;
+});
+
+$carvings = $carvings->toArray();
 ?>
 
 <div class="card" style="margin-bottom: 30px;">
     <div class="card-header">{{ __('Registered Carvings') }} <span
-                style="font-weight: bold;float: right;">Total Price: {!! \App\Http\Controllers\HomeController::calcPrice(count($carvings)) !!}
+                style="font-weight: bold;float: right;">Total Price: {!! \App\Http\Controllers\HomeController::calcPrice($countable->count()) !!}
             $ CAD</span></div>
     <div class="card-body" style="overflow-y: scroll;height: 300px;padding: 0;">
         <table class="table table-striped" style="margin: 0">
