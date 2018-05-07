@@ -140,8 +140,13 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
     function onChangeDivision() {
         var division = $("#division").val();
 
-        $('#category').children().hide();
-        $('#category option[division="' + division + '"]').show();
+        $('#category').children().each(function() {
+          $(this).addClass('hidden');
+        });
+
+        $('#category option[division="' + division + '"]').each(function() {
+            $(this).removeClass('hidden');
+        });
         $('#category').val($('#category option[division="' + division + '"]').first().val());
 
     }

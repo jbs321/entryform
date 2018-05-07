@@ -27,6 +27,12 @@ $user = \Illuminate\Support\Facades\Auth::user();
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 </head>
+
+<style>
+    .hidden {
+        display: none !important;
+    }
+</style>
 <body>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
