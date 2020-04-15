@@ -1,6 +1,17 @@
 <?php
 $carvings = \Illuminate\Support\Facades\Auth::user()->carvings->toArray();
 $price    = (count($carvings)) > 3 ? 0 : 6;
+
+$fname = \Illuminate\Support\Facades\Auth::user()->fname;
+$lname = \Illuminate\Support\Facades\Auth::user()->lname;
+
+$fullName = implode(" ", [$lname, $fname]);
+
+$email = \Illuminate\Support\Facades\Auth::user()->email;
+
+
+$imageUploadUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfjKQoS39ANHeclvYBhcYAZHYil_BGS2gVo348_pwSKkTqYsA/viewform?usp=pp_url&entry.834563105={}&entry.1762168605={$email}";
+$imageUploadUrl ="https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nGvYEggnSH6_ziJYAnlBjRiXGDgTlg/viewform?usp=pp_url&entry.199823495={$fullName}&entry.1373471256={$email}&entry.271632587={$skill}&entry.1311842077={$division}&entry.1137483383={$category}"
 ?>
 
 <div class="card add-carving">
@@ -123,6 +134,13 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
                 </div>
             </div>
 
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-right">{{ __('Upload Images') }}</label>
+                <div class="col-md-6" style="margin-top: 8px;">
+                    <a target="_blank" href="{!!$imageUploadUrl!!}">Click here</a>
+                </div>
+            </div>
+
             <div class="form-group row mb-0">
                 <div class="col-md-6 offset-md-4">
                     <button type="submit" class="btn btn-primary" id="submit-carving">
@@ -179,6 +197,10 @@ $price    = (count($carvings)) > 3 ? 0 : 6;
             } else {
                 $('#carving-price').html("Price: {{$price}}$ CAD");
             }
+        });
+
+        $('form textarea,select').change(function(event) {
+          console.log($(this).val());
         });
 
     });

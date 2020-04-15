@@ -41,8 +41,7 @@ $carvings = $carvings->toArray();
                     <td>{!! $carving['description'] !!}</td>
                     <td>{!! $carving['is_for_sale'] !!}</td>
                     <td>
-                        <button type="button" class="btn btn-info"
-                                onclick="window.location = '{{'/carving/'.$carving['id'].'/edit'}}'"
+                        <button type="button" class="btn btn-info" onclick="window.location = '{{'/carving/'.$carving['id'].'/edit'}}'"
                                 style="float: left">Edit
                         </button>
                         <form action="/carving/{!! $carving['id'] !!}/delete" method="POST" style="float: left">

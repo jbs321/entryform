@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Carving;
 use App\Exports\CarvingsExports;
 use App\Http\Requests\NewCarvingRequest;
+use App\Mail\NewCarving;
+use App\Mail\NewCarving2;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CarvingController extends Controller
@@ -30,6 +33,7 @@ class CarvingController extends Controller
     const CATEGORY_P = 'P: Seminar Carvings';
     const CATEGORY_Q = 'Q: Stone Carvings';
     const CATEGORY_R = 'R: Courtesy Carvings';
+    const CATEGORY_S = 'S: Woodturning';
 
     const DIVISIONS = [
         ""               => "",
@@ -51,6 +55,7 @@ class CarvingController extends Controller
         self::CATEGORY_P => self::CATEGORY_P,
         self::CATEGORY_Q => self::CATEGORY_Q,
         self::CATEGORY_R => self::CATEGORY_R,
+        self::CATEGORY_S => self::CATEGORY_S,
     ];
 
     const CATEGORIES = [
@@ -147,6 +152,7 @@ class CarvingController extends Controller
             512 => 'Bentwood boxes and bentwood bowls',
             513 => 'All flat or half-round relief designs, carved and/or painted',
             514 => 'Totem poles any size (see rule 12)',
+            515 => 'Miscellaneous Northwest Coast Style',
         ],
         self::CATEGORY_O => [
             520 => 'Kachina and other figures, relief not Northwest Coast style, in the round not Northwest Coast style',
@@ -164,6 +170,14 @@ class CarvingController extends Controller
         ],
         self::CATEGORY_R => [
             810 => 'Non-judged Carvings',
+        ],
+        self::CATEGORY_S => [
+            910 => 'Bowls',
+            911 => 'Hollow Turnings',
+            912 => 'Segmented',
+            913 => 'Sculptural',
+            914 => 'Surface Enhancment',
+            915 => 'Small Objects',
         ],
     ];
 
@@ -190,21 +204,20 @@ class CarvingController extends Controller
 
     public function create(NewCarvingRequest $request)
     {
-        $newCarving          = new Carving();
-        $newCarving->user_id = Auth::user()->id;
+        $user = Auth::user();
+        $newCarving = new Carving();
+        $newCarving->user_id = $user->id;
         $newCarving->fill($request->all());
         $newCarving->save();
 
-        return view('home', [
-            'isSubmitted' => 1
-        ]);
+        return redirect('home');
     }
 
-    public function delete(Request $request, Carving $carving)
+    public function delete(Carving $carving)
     {
         $carving->delete();
 
-        if(Auth::user()->is_admin) {
+        if (Auth::user()->is_admin) {
             return view('admin');
         }
 
@@ -237,9 +250,9 @@ class CarvingController extends Controller
             $carving->division    = substr($carving->division, 0, 1);
             $carving->amount      = "6";
 
-            if($carving->division == self::CATEGORY_R ||
-               $carving->skill == "Student") {
-                $carving->amount      = "0";
+            if ($carving->division == self::CATEGORY_R ||
+                $carving->skill == "Student") {
+                $carving->amount = "0";
             }
 
             unset($carving->created_at);
@@ -261,11 +274,16 @@ class CarvingController extends Controller
         $carving->fill($request->all());
         $carving->save();
 
-        if(Auth::user()->is_admin) {
+        if (Auth::user()->is_admin) {
             return view('admin');
         }
 
         return $this->index();
+    }
+
+    public function saveToSession(Request $requests)
+    {
+        $requests->flash();
     }
 }
 
