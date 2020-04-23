@@ -12,6 +12,13 @@
                         <li><a href="http://richmondcarvers.com/2020-carving-show">Prospectus</a></li>
                         <li>Student carvings - n/c.</li>
                     </ul>
+
+                    <h5>Tech support:</h5>
+                    <ul>
+                        <li><b>Mike Cohene</b> (604) 961-0063 <a href="mailto:mcohene@gmail.com">mcohene@gmail.com</a></li>
+                        <li><b>Dave Price</b>  (778) 707-0057 <a href="dbp843@gmail.com">dbp843@gmail.com</a></li>
+                        <li><b>Dan Lemire</b> (778) 238-8759 <a href="khun_dan@yahoo.com">khun_dan@yahoo.com</a></li>
+                    </ul>
                 </div>
             </div>
         </div>

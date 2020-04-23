@@ -139,7 +139,9 @@
 
                     <?php $isValid = $errors->has('photos') ? ' is-invalid' : ''; ?>
                     <div class="col-md-6">
-                        {!! Form::file('photos[]', ['multiple' => true, "accept" => "image/*", 'id' => 'photos', 'class' => "form-control $isValid" ]) !!}
+                        {!! Form::file('photos[]', ['multiple' => true, "accept" => "image/*", 'id' => 'photos', 'class' => "form-control $isValid col-11" ]) !!}
+                        <span style="font-style: italic; font-size: 13px">Upload photos from the same location</span>
+                        <div id="spinner" style="display: none"><img src="https://cdn.lowgif.com/full/ee5eaba393614b5e-pehliseedhi-suitable-candidate-suitable-job.gif" alt="Loading..." style="width: 50px; height: 50px"></div>
                         @if ($errors->has('photos'))
                             <span class="invalid-feedback"><strong>{{ $errors->first('photos') }}</strong></span>
                         @endif
@@ -244,6 +246,14 @@
               loadImgWithPhoto(input.files[i])
             }
           }
+        })
+
+        $('#photos').on('change', function () {
+          $('#spinner').css('display', 'none');
+        })
+
+        $('#photos').on('input', function () {
+          $('#spinner').css('display', 'block');
         })
       })
     </script>
