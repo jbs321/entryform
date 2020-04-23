@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\CarvingsExports;
 use App\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -57,5 +58,21 @@ class UserController extends Controller
             'Email',
             'Is Administrator',
         ]), 'users.xlsx');
+    }
+
+    public function recordPayment(User $user, Request $request)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+        $user->recordPayment($request->amount);
+
+        return new JsonResponse("recorded");
+    }
+
+    public function viewPayments(User $user)
+    {
+        return view('payments', ['totalPaid' => $user->payments(), 'payments' => $user->paymentList()]);
     }
 }

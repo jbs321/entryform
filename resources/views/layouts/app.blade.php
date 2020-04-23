@@ -16,6 +16,7 @@ $user = \Illuminate\Support\Facades\Auth::user();
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -83,6 +84,10 @@ $user = \Illuminate\Support\Facades\Auth::user();
                                     <a class="dropdown-item" href="/tickets">
                                         Tickets (Under Construction)
                                     </a>
+
+                                    <a class="dropdown-item" href="/admin/payments">
+                                        Payments
+                                    </a>
                                 <?php endif; ?>
 
                                     <a class="dropdown-item" href="/">
@@ -91,6 +96,10 @@ $user = \Illuminate\Support\Facades\Auth::user();
 
                                     <a class="dropdown-item" href="/user/{{$user->id}}/edit">
                                         My Profile
+                                    </a>
+
+                                    <a class="dropdown-item" href="/user/{{$user->id}}/view-payments">
+                                        My Payments
                                     </a>
 
                                     <a class="dropdown-item" href="http://richmondcarvers.com">

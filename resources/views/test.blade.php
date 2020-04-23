@@ -9,7 +9,7 @@
                     <ul>
                         <li>Entry must be received by May 28, 2020. - $6 per carving.</li>
 
-                        <li><a href="http://richmondcarvers.com/2020-carving-show">Prospectus</a></li>
+                        <li><a href="http://richmondcarvers.com">Prospectus</a></li>
                         <li>Student carvings - n/c.</li>
                     </ul>
                 </div>
@@ -17,8 +17,8 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-xs-12 col-md-10">
-                @include('carvingslist')
-                @include('registercarvings')
+                Pay
+                <div id="paypal-button"></div>
             </div>
         </div>
     </div>

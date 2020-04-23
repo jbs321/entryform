@@ -7,14 +7,18 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
-
 Route::middleware(['auth'])->group(function () {
+    Route::get('/storage/{filename}', 'PhotoController@show');
+    Route::post('/storage/delete/{file}', 'PhotoController@delete');
+
+
     Route::name('carving')->post('/carving', 'CarvingController@create');
 
     //User protected Routes
     Route::middleware([AuthorizeUserChangeMiddleware::class])->group(function() {
         Route::get('/carving/excel/{user}', 'CarvingController@downloadCarvingsForUser');
-
+        Route::post('/user/{user}/record-payment', 'UserController@recordPayment');
+        Route::get('/user/{user}/view-payments', 'UserController@viewPayments');
         Route::get('/user/{user}/edit', 'UserController@edit');
         Route::post('/user/{user}/update', 'UserController@update');
     });
@@ -41,4 +45,12 @@ Route::middleware(['auth', checkAdmin::class])->group(function () {
     Route::get('/admin/carving/{carving}/edit', 'CarvingController@edit');
     Route::post('/admin/carving/{carving}/delete', 'CarvingController@delete');
     Route::post('/admin/carving/{carving}/update', 'CarvingController@update');
+
+    Route::get('/admin/payments', 'PaymentController@show');
+});
+
+Route::get('/test', function () {
+    $num = 1;
+    $sum = \App\Http\Controllers\HomeController::calcPrice($num);
+    return new \Illuminate\Http\JsonResponse($sum);
 });

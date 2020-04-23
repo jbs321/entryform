@@ -1,6 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <?php
+    $user = \Illuminate\Support\Facades\Auth::user();
+    $fullName = "$user->fname $user->lname";
+    $email = "$user->email";
+    $link = "https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nGvYEggnSH6_ziJYAnlBjRiXGDgTlg/viewform?usp=pp_url&entry.199823495=full_name&entry.1383365882=carving_tag_number&entry.1373471256=email&entry.271632587=skill&entry.1311842077=division&entry.1137483383=category";
+    $link = str_replace("full_name", $fullName, $link);
+    $link = str_replace("email", $user->email, $link);
+    $link = str_replace("carving_tag_number", "$carvingId", $link);
+    $link = str_replace("skill", $carving->skill, $link);
+    $link = str_replace("division", $carving->division, $link);
+    $link = str_replace("category", $carving->category, $link);
+    ?>
+
+
     <div class="card container" style="padding: 0">
         <div class="card-header">Edit Carving</div>
 
@@ -11,7 +26,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="/carving/{{ $carving->id }}/update" method="POST">
+            <form method="POST" action="/carving/{{ $carving->id }}/update" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group row">
@@ -90,8 +105,9 @@
 
                     <div class="col-md-6">
             <textarea id="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
-                      name="description" autofocus
-                      placeholder="Description of carving and type of wood or other media" rows="6">{{ $carving->description }}</textarea>
+                      name="description" autofocus required
+                      placeholder="Description of carving and type of wood or other media"
+                      rows="6">{{ $carving->description }}</textarea>
 
                         @if ($errors->has('description'))
                             <span class="invalid-feedback"><strong>{{ $errors->first('description') }}</strong></span>
@@ -118,6 +134,43 @@
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <label for="photos" class="col-md-4 col-form-label text-md-right">{{ __('Photos') }}</label>
+
+                    <?php $isValid = $errors->has('photos') ? ' is-invalid' : ''; ?>
+                    <div class="col-md-6">
+                        {!! Form::file('photos[]', ['multiple' => true, "accept" => "image/*", 'id' => 'photos', 'class' => "form-control $isValid" ]) !!}
+                        @if ($errors->has('photos'))
+                            <span class="invalid-feedback"><strong>{{ $errors->first('photos') }}</strong></span>
+                        @endif
+                    </div>
+
+                    <label for="photos" class="col-md-4 col-form-label text-md-right"></label>
+                    <div class="col-md-6 photo-preview">
+
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label text-md-right"></label>
+                    <div>
+                        @foreach($photos as $photo)
+                            <div style="height: 90px; width:90px;position:relative; display: inline-block;float: left; margin-left: 5px;">
+                                <a href="#">
+                                    <div style="position: absolute; height:25px; width:25px; right: 0; top: 0; z-index: 99; background-color: white; text-align: center"
+                                         class="deletePhoto" storage-id="{!! $photo->id !!}">
+                                        X
+                                    </div>
+                                </a>
+                                <a href="/storage/{!! $photo->filename !!}" target="_blank">
+                                    <img style="height: 100%; width: 100%;z-index: 10;position: absolute"
+                                         src="/storage/{!! $photo->filename !!}"></a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" class="btn btn-primary" id="submit-carving">
@@ -131,22 +184,67 @@
     </div>
 
     <script>
-        function onChangeDivision() {
-            var division = $("#division").val();
+      function onChangeDivision () {
+        var division = $('#division').val()
 
-            $('#category').children().hide();
-            $('#category option[division="' + division + '"]').show();
-            $('#category').val($('#category option[division="' + division + '"]').first().val());
+        $('#category').children().hide()
+        $('#category option[division="' + division + '"]').show()
+        $('#category').val($('#category option[division="' + division + '"]').first().val())
 
+      }
+
+      $(function () {
+        onChangeDivision()
+        $("select#category option[value={{$carving->category}}]").prop('selected', true)
+      })
+
+      $(function () {
+        $('#upload-images').on('click', function (e) {
+          e.preventDefault()
+
+          window.open("{!! $link !!}", $(this).attr('target'))
+        })
+
+        $('.deletePhoto').click(function () {
+          $.ajax({
+            url: '/storage/delete/' + $(this).attr('storage-id'),
+            method: 'post',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          }).then(function () {
+            location.reload()
+          }).catch(function () {
+            alert('Oops something went wrong!')
+          })
+        })
+
+        function loadImgWithPhoto (file) {
+          if (!file) {
+            return
+          }
+
+          var reader = new FileReader()
+
+          reader.onload = function (e) {
+            $previewImage = $('<img class="preview" style="width: 100px; height: 100px;margin:3px">').attr('src', e.target.result)
+            $('.photo-preview').append($previewImage)
+          }
+
+          // convert to base64 string
+          reader.readAsDataURL(file)
         }
 
-        $(function () {
-            onChangeDivision();
-            $("select#category option[value={{$carving->category}}]").prop('selected', true);
+        $('#photos').change(function () {
+          const input = this
 
-            $('#submit-carving').on('click', function (event) {
-                alert("Changes Saved Successfully!");
-            });
-        });
+          if (input.files) {
+            $('.photo-preview').html('')
+            for (var i = 0; i < input.files.length; i++) {
+              loadImgWithPhoto(input.files[i])
+            }
+          }
+        })
+      })
     </script>
 @endsection

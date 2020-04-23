@@ -41,16 +41,13 @@ class HomeController extends Controller
     }
 
     static function calcPrice(int $numCarvings = 0) {
-        if($numCarvings == 0) {
-            return 0;
-        } elseif($numCarvings == 1) {
-            return 6;
-        } elseif($numCarvings == 2) {
-            return 12;
-        } elseif($numCarvings == 3) {
-            return 18;
-        }
+        $total = $numCarvings * 6;
+        $sumPayments = Auth::user()->payments();
 
-        return 24;
+        $total -= $sumPayments;
+
+        $total = $total < 0 ? 0 : $total;
+
+        return $total;
     }
 }

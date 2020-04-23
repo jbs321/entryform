@@ -29,6 +29,17 @@ class NewCarvingRequest extends FormRequest
             "category"    => 'required|string|max:255',
             "description" => 'required|string|max:255',
             "is_for_sale" => 'required|boolean',
+            "photos" => ['required', 'array', function ($attribute, $value, $fail) {
+                if (count($value) > 2) {
+                    return $fail('Max photo limit is 2 photos.');
+                }
+            }, function ($attribute, $value, $fail) {
+                if (count($value) == 0) {
+                    return $fail('Select at least 1 photo.');
+                }
+            },
+            ],
+            "photos.*"    => 'required|image|mimes:jpeg,png,jpg,git|max:4000'
         ];
     }
 }

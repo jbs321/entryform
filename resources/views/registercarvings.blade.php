@@ -1,17 +1,6 @@
 <?php
 $carvings = \Illuminate\Support\Facades\Auth::user()->carvings->toArray();
-$price    = (count($carvings)) > 3 ? 0 : 6;
-
-$fname = \Illuminate\Support\Facades\Auth::user()->fname;
-$lname = \Illuminate\Support\Facades\Auth::user()->lname;
-
-$fullName = implode(" ", [$lname, $fname]);
-
-$email = \Illuminate\Support\Facades\Auth::user()->email;
-
-
-$imageUploadUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfjKQoS39ANHeclvYBhcYAZHYil_BGS2gVo348_pwSKkTqYsA/viewform?usp=pp_url&entry.834563105={}&entry.1762168605={$email}";
-$imageUploadUrl ="https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nGvYEggnSH6_ziJYAnlBjRiXGDgTlg/viewform?usp=pp_url&entry.199823495={$fullName}&entry.1373471256={$email}&entry.271632587={$skill}&entry.1311842077={$division}&entry.1137483383={$category}"
+$price = (count($carvings)) * 6;
 ?>
 
 <div class="card add-carving">
@@ -24,12 +13,12 @@ $imageUploadUrl ="https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nG
             </div>
         @endif
 
-        <form method="POST" action="{{ route('carving') }}" method="POST">
+        <form method="POST" action="{{ route('carving') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="form-group row">
                 <label for="skill" class="col-md-4 col-form-label text-md-right">{{ __('Skill Level') }}</label>
-
+                <?php $isValid = $errors->has('skill') ? ' is-invalid' : ''; ?>
                 <div class="col-md-6">
                     {!! Form::select('skill', [
                            ""             => "",
@@ -38,11 +27,11 @@ $imageUploadUrl ="https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nG
                            "Intermediate" => "Intermediate",
                            "Advanced"     => "Advanced",
                            "Expert"       => "Expert",
-                    ], null,  [
+                    ], "",  [
                         "id"            => "skill",
                         "required"      => "required",
                         "autofocus"     => "autofocus",
-                        "class"         => "form-control " . $errors->has('skill') ? ' is-invalid' : '',
+                        "class"         => "form-control $isValid",
                     ])!!}
                     @if ($errors->has('skill'))
                         <span class="invalid-feedback"><strong>{{ $errors->first('skill') }}</strong></span>
@@ -52,14 +41,14 @@ $imageUploadUrl ="https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nG
 
             <div class="form-group row">
                 <label for="division" class="col-md-4 col-form-label text-md-right">{{ __('Division') }}</label>
-
+                <?php $isValid = $errors->has('division') ? ' is-invalid' : ''; ?>
                 <div class="col-md-6">
                     {!! Form::select('division', \App\Http\Controllers\CarvingController::DIVISIONS, null,  [
                         "id"            => "division",
                         "required"      => "required",
                         "autofocus"     => "autofocus",
                         "onchange"      => "onChangeDivision(this)",
-                        "class"         => "form-control " . $errors->has('division') ? ' is-invalid' : '',
+                        "class"         => "form-control $isValid",
                     ])!!}
                     @if ($errors->has('division'))
                         <span class="invalid-feedback"><strong>{{ $errors->first('division') }}</strong></span>
@@ -67,20 +56,19 @@ $imageUploadUrl ="https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nG
                 </div>
             </div>
 
-
             <div class="form-group row">
                 <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
 
                 <div class="col-md-6">
 
-                    {{$isValid = $errors->has('category') ? ' is-invalid' : ''}}
+                    <?php $isValid = $errors->has('category') ? ' is-invalid' : ''; ?>
 
                     <select name="category"
                             id="category"
                             required
                             autofocus
                             style="padding: 0;"
-                            class={{"col-md-12 form-control " . $isValid}}>
+                            class="form-control {!! $isValid !!}">
 
                         @foreach(\App\Http\Controllers\CarvingController::CATEGORIES as $division => $categories)
                             @foreach($categories as $id => $category)
@@ -97,7 +85,6 @@ $imageUploadUrl ="https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nG
                     @endif
                 </div>
             </div>
-
 
             <div class="form-group row">
                 <label for="description" class="col-md-4 col-form-label text-md-right">Description</label>
@@ -135,9 +122,18 @@ $imageUploadUrl ="https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nG
             </div>
 
             <div class="form-group row">
-                <label class="col-md-4 col-form-label text-md-right">{{ __('Upload Images') }}</label>
-                <div class="col-md-6" style="margin-top: 8px;">
-                    <a target="_blank" href="{!!$imageUploadUrl!!}">Click here</a>
+                <label for="photos" class="col-md-4 col-form-label text-md-right">{{ __('Photos') }}</label>
+
+                <?php $isValid = $errors->has('photos') ? ' is-invalid' : ''; ?>
+                <div class="col-md-6">
+                    {!! Form::file('photos[]', ['multiple' => true, "accept" => "image/*", 'id' => 'photos', 'class' => "form-control $isValid" ]) !!}
+                    @if ($errors->has('photos'))
+                        <span class="invalid-feedback"><strong>{{ $errors->first('photos') }}</strong></span>
+                    @endif
+                </div>
+                <label for="photos" class="col-md-4 col-form-label text-md-right"></label>
+                <div class="col-md-6 photo-preview">
+
                 </div>
             </div>
 
@@ -152,56 +148,98 @@ $imageUploadUrl ="https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nG
 
     </div>
 
-    <div class="card-footer" id="carving-price" style="font-weight: bold">Price: {!! $price !!}$ CAD</div>
+    <div class="card-footer" id="carving-price" style="font-weight: bold">Price: $6 CAD</div>
 </div>
 <script>
-    function onChangeDivision() {
-        var division = $("#division").val();
+  function onChangeDivision () {
+    var division = $('#division').val()
 
-        $('#category').children().each(function() {
-          $(this).addClass('hidden');
-            $(this).attr("disabled", "true");
-        });
+    $('#category').children().each(function () {
+      $(this).addClass('hidden')
+      $(this).attr('disabled', 'true')
+    })
 
-        $('#category option[division="' + division + '"]').each(function() {
-            $(this).removeClass('hidden');
-            $(this).removeAttr("disabled");
-        });
-        $('#category').val($('#category option[division="' + division + '"]').first().val());
+    $('#category option[division="' + division + '"]').each(function () {
+      $(this).removeClass('hidden')
+      $(this).removeAttr('disabled')
+    })
+    $('#category').val($('#category option[division="' + division + '"]').first().val())
 
+  }
+
+  function debounce (func, wait, immediate) {
+    var timeout
+    return function () {
+      var context = this, args = arguments
+      var later = function () {
+        timeout = null
+        if (!immediate) func.apply(context, args)
+      }
+      var callNow = immediate && !timeout
+      clearTimeout(timeout)
+      timeout = setTimeout(later, wait)
+      if (callNow) func.apply(context, args)
+    }
+  }
+
+  $(function () {
+    onChangeDivision()
+      <?php
+          if(isset($isSubmitted)):
+          ?>
+      if ('{{$isSubmitted}}' == 1) {
+        alert('You have successfully registered a Carving for the show, You can now Logoff or continue adding more Carvings')
+      }
+      <?php
+      endif;
+      ?>
+
+      $('#skill').on('change', function () {
+        if ($(this).val() == 'Student') {
+          $('#carving-price').html('Price: $0 CAD')
+        } else {
+          $('#carving-price').html('Price: $6 CAD')
+        }
+      })
+
+    $('#division').on('change', function () {
+      if ($(this).val() == 'R: Courtesy Carvings') {
+        $('#carving-price').html('Price: $0 CAD')
+      } else {
+        $('#carving-price').html('Price: $6 CAD')
+      }
+    })
+
+    function loadImgWithPhoto (file) {
+      if (!file) {
+        return
+      }
+
+      var reader = new FileReader()
+
+      reader.onload = function (e) {
+        $previewImage = $('<img class="preview" style="width: 100px; height: 100px;margin:3px">').attr('src', e.target.result);
+        $(".photo-preview").append($previewImage);
+      }
+
+      // convert to base64 string
+      reader.readAsDataURL(file)
     }
 
-    $(function () {
-        onChangeDivision();
-        <?php
-            if(isset($isSubmitted)):
-        ?>
-            if('{{$isSubmitted}}' == 1) {
-                alert("You have successfully registered a Carving for the show, You can now Logoff or continue adding more Carvings");
-            }
-        <?php
-            endif;
-        ?>
+    $('#photos').change(function () {
+      const input = this
 
-        $('#skill').on("change", function() {
-            if($(this).val() == "Student") {
-                $('#carving-price').html("Price: 0$ CAD");
-            } else {
-                $('#carving-price').html("Price: {{$price}}$ CAD");
-            }
-        });
+      if (input.files) {
+        $(".photo-preview").html("");
+        for(var i = 0; i < input.files.length; i++) {
+          loadImgWithPhoto(input.files[i]);
+        }
+      }
+    })
+  })
 
-        $('#division').on("change", function() {
-            if($(this).val() == "R: Courtesy Carvings") {
-                $('#carving-price').html("Price: 0$ CAD");
-            } else {
-                $('#carving-price').html("Price: {{$price}}$ CAD");
-            }
-        });
+  @if (count($errors) > 0)
+  addCarving()
+    @endif
 
-        $('form textarea,select').change(function(event) {
-          console.log($(this).val());
-        });
-
-    });
 </script>

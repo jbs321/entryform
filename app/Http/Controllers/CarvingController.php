@@ -4,14 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Carving;
 use App\Exports\CarvingsExports;
+use App\File;
 use App\Http\Requests\NewCarvingRequest;
 use App\Mail\NewCarving;
 use App\Mail\NewCarving2;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpParser\Node\Scalar\String_;
 
 class CarvingController extends Controller
 {
@@ -36,7 +42,7 @@ class CarvingController extends Controller
     const CATEGORY_S = 'S: Woodturning';
 
     const DIVISIONS = [
-        ""               => "",
+        "" => "",
         self::CATEGORY_A => self::CATEGORY_A,
         self::CATEGORY_B => self::CATEGORY_B,
         self::CATEGORY_C => self::CATEGORY_C,
@@ -204,24 +210,52 @@ class CarvingController extends Controller
 
     public function create(NewCarvingRequest $request)
     {
+        /** @var User $user */
         $user = Auth::user();
         $newCarving = new Carving();
         $newCarving->user_id = $user->id;
         $newCarving->fill($request->all());
         $newCarving->save();
 
+        /** @var UploadedFile $photo */
+        foreach ($request->file('photos') as $idx => $photo) {
+            $savedPhoto = $this->saveFileForCarvingInDB($newCarving, $photo, $user, $idx);
+            $this->savePhotoForCarving($photo, $savedPhoto);
+        }
+
         return redirect('home');
+    }
+
+    private function saveFileForCarvingInDB(Carving $carving, UploadedFile $photo, User $user, $key)
+    {
+        $fileName = "carving_{$user->id}_{$carving->id}_{$key}.{$photo->getClientOriginalExtension()}";
+        $file = new File;
+
+        $file->fill([
+            'carving_id' => $carving->id,
+            'size' => $photo->getSize(),
+            'mime' => $photo->getMimeType(),
+            'filename' => $fileName,
+        ]);
+
+        $file->save();
+        return $file;
+    }
+
+    private function savePhotoForCarving(UploadedFile $photo, File $photoModel)
+    {
+        $photo->storeAs('app/public', $photoModel->filename);
+
+        $photoModel->update(['path' => storage_path("app") . $photoModel->filename]);
+        $photoModel->save();
     }
 
     public function delete(Carving $carving)
     {
+        $carving->deletePhotos();
         $carving->delete();
 
-        if (Auth::user()->is_admin) {
-            return view('admin');
-        }
-
-        return view('home');
+        return redirect('home');
     }
 
     public function downloadCarvingsForUser(User $user)
@@ -229,8 +263,8 @@ class CarvingController extends Controller
         $carvings = $user->carvings;
         $carvings = $carvings->map(function (Carving $carving) use ($user) {
             $carving->is_for_sale = ($carving->is_for_sale) ? "yes" : "no";
-            $carving->user_id     = $user['fname'] . " " . $user['lname'];
-            $carving->division    = substr($carving->division, 0, 1);
+            $carving->user_id = $user['fname'] . " " . $user['lname'];
+            $carving->division = substr($carving->division, 0, 1);
             unset($carving->created_at);
             unset($carving->updated_at);
 
@@ -244,11 +278,11 @@ class CarvingController extends Controller
     {
         $carvings = Carving::all();
         $carvings = $carvings->map(function (Carving $carving) {
-            $user                 = $carving->user()->first();
+            $user = $carving->user()->first();
             $carving->is_for_sale = ($carving->is_for_sale) ? "yes" : "no";
-            $carving->user_id     = $user['fname'] . " " . $user['lname'];
-            $carving->division    = substr($carving->division, 0, 1);
-            $carving->amount      = "6";
+            $carving->user_id = $user['fname'] . " " . $user['lname'];
+            $carving->division = substr($carving->division, 0, 1);
+            $carving->amount = "6";
 
             if ($carving->division == self::CATEGORY_R ||
                 $carving->skill == "Student") {
@@ -266,24 +300,47 @@ class CarvingController extends Controller
 
     public function edit(Carving $carving)
     {
-        return view('editcarving', ['carving' => $carving]);
+        $photos = $carving->photos()->get();
+        return view('editcarving', ['carving' => $carving, 'carvingId' => $carving->id, 'photos' => $photos]);
     }
 
-    public function update(NewCarvingRequest $request, Carving $carving)
+    public function update(Request $request, Carving $carving)
     {
+        $request->validate([
+            "skill" => 'required|string|max:255',
+            "division" => 'required|string|max:255',
+            "category" => 'required|string|max:255',
+            "description" => 'required|string|max:255',
+            "is_for_sale" => 'required|boolean',
+            "photos" => ['array', function ($attribute, $value, $fail) {
+                if (count($value) > 2) {
+                    return $fail('Max photo limit is 2 photos.');
+                }
+            }, function ($attribute, $value, $fail) {
+                if (count($value) == 0) {
+                    return $fail('Select at least 1 photo.');
+                }
+            },
+            ],
+            "photos.*" => 'image|mimes:jpeg,png,jpg,git|max:4000'
+        ]);
+
+        /** @var User $user */
+        $user = Auth::user();
         $carving->fill($request->all());
         $carving->save();
 
-        if (Auth::user()->is_admin) {
-            return view('admin');
+        if ($request->has('photos')) {
+            $carving->deletePhotos();
+
+            /** @var UploadedFile $photo */
+            foreach ($request->file('photos') as $idx => $photo) {
+                $savedPhoto = $this->saveFileForCarvingInDB($carving, $photo, $user, $idx);
+                $this->savePhotoForCarving($photo, $savedPhoto);
+            }
         }
 
         return $this->index();
-    }
-
-    public function saveToSession(Request $requests)
-    {
-        $requests->flash();
     }
 }
 

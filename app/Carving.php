@@ -17,6 +17,20 @@ class Carving extends Model
 
     public function user()
     {
-        return $this->hasOne('App\User', 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(File::class, 'carving_id', 'id');
+    }
+
+    public function deletePhotos()
+    {
+        /** @var File $photo */
+        foreach ($this->photos()->get() as $photo) {
+            $photo->delete();
+            $photo->deleteFromStorage();
+        }
     }
 }
