@@ -128,7 +128,6 @@ $price = (count($carvings)) * 6;
                 <div class="col-md-6">
                     {!! Form::file('photos[]', ['multiple' => true, "accept" => "image/*", 'id' => 'photos', 'class' => "form-control $isValid" ]) !!}
                     <span style="font-style: italic; font-size: 13px">Upload photos from the same location</span>
-                    <div id="spinner" style="display: none"><img src="https://cdn.lowgif.com/full/ee5eaba393614b5e-pehliseedhi-suitable-candidate-suitable-job.gif" alt="Loading..." style="width: 50px; height: 50px"></div>
                     @if ($errors->has('photos'))
                         <span class="invalid-feedback"><strong>{{ $errors->first('photos') }}</strong></span>
                     @endif
@@ -141,8 +140,12 @@ $price = (count($carvings)) * 6;
 
             <div class="form-group row mb-0">
                 <div class="col-md-6 offset-md-4">
-                    <button type="submit" class="btn btn-primary" id="submit-carving">{{ __('Submit Carving') }}</button>
+                    <button type="submit" class="btn btn-primary"
+                            id="submit-carving">{{ __('Submit Carving') }}</button>
                     <button type="button" class="btn btn-secondary" id="cancel-carving">{{ __('Cancel') }}</button>
+                    <span id="spinner" style="display: none"><img
+                                src="https://cdn.lowgif.com/full/ee5eaba393614b5e-pehliseedhi-suitable-candidate-suitable-job.gif"
+                                alt="Loading..." style="width: 50px; height: 50px"></span>
                 </div>
             </div>
         </form>
@@ -219,8 +222,8 @@ $price = (count($carvings)) * 6;
       var reader = new FileReader()
 
       reader.onload = function (e) {
-        $previewImage = $('<img class="preview" style="width: 100px; height: 100px;margin:3px">').attr('src', e.target.result);
-        $(".photo-preview").append($previewImage);
+        $previewImage = $('<img class="preview" style="width: 100px; height: 100px;margin:3px">').attr('src', e.target.result)
+        $('.photo-preview').append($previewImage)
       }
 
       // convert to base64 string
@@ -231,24 +234,22 @@ $price = (count($carvings)) * 6;
       const input = this
 
       if (input.files) {
-        $(".photo-preview").html("");
-        for(var i = 0; i < input.files.length; i++) {
-          loadImgWithPhoto(input.files[i]);
+        $('.photo-preview').html('')
+        for (var i = 0; i < input.files.length; i++) {
+          loadImgWithPhoto(input.files[i])
         }
       }
     })
 
-    $("#cancel-carving").click(function (e) {
-        e.preventDefault();
-        window.location.href = "/";
-    });
-
-    $('#photos').on('change', function () {
-      $('#spinner').css('display', 'none');
+    $('#cancel-carving').click(function (e) {
+      e.preventDefault()
+      window.location.href = '/'
     })
 
-    $('#photos').on('input', function () {
-      $('#spinner').css('display', 'block');
+    $('#submit-carving').on('click', function () {
+
+      $('#spinner').css('display', 'inline');
+      $('form').disable()
     })
   })
 

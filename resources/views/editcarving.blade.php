@@ -141,7 +141,6 @@
                     <div class="col-md-6">
                         {!! Form::file('photos[]', ['multiple' => true, "accept" => "image/*", 'id' => 'photos', 'class' => "form-control $isValid col-11" ]) !!}
                         <span style="font-style: italic; font-size: 13px">Upload photos from the same location</span>
-                        <div id="spinner" style="display: none"><img src="https://cdn.lowgif.com/full/ee5eaba393614b5e-pehliseedhi-suitable-candidate-suitable-job.gif" alt="Loading..." style="width: 50px; height: 50px"></div>
                         @if ($errors->has('photos'))
                             <span class="invalid-feedback"><strong>{{ $errors->first('photos') }}</strong></span>
                         @endif
@@ -175,9 +174,9 @@
 
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-primary" id="submit-carving">
-                            {{ __('Save Changes') }}
-                        </button>
+                        <button type="submit" class="btn btn-primary" id="submit-carving">{{ __('Save Changes') }}</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-carving">{{ __('Cancel') }}</button>
+                        <span id="spinner" style="display: none"><img src="https://cdn.lowgif.com/full/ee5eaba393614b5e-pehliseedhi-suitable-candidate-suitable-job.gif" alt="Loading..." style="width: 50px; height: 50px"></span>
                     </div>
                 </div>
             </form>
@@ -248,13 +247,16 @@
           }
         })
 
-        $('#photos').on('change', function () {
-          $('#spinner').css('display', 'none');
+        $("#cancel-carving").click(function (e) {
+          e.preventDefault();
+          window.location.href = "/";
+        });
+
+        $('#submit-carving').on('click', function () {
+          $('#spinner').css('display', 'inline');
+          $('form').disable();
         })
 
-        $('#photos').on('input', function () {
-          $('#spinner').css('display', 'block');
-        })
       })
     </script>
 @endsection

@@ -39,7 +39,7 @@ class NewCarvingRequest extends FormRequest
                 }
             },
             ],
-            "photos.*"    => 'required|image|mimes:jpeg,png,jpg,git|max:4000'
+            "photos.*"    => 'required|image|mimes:jpeg,png,jpg,git|max:10000'
         ];
     }
 }
