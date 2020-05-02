@@ -21,10 +21,6 @@ class UserController extends Controller
         $user->fill($request->all());
         $user->save();
 
-        if (Auth::user()->is_admin) {
-            return view('admin');
-        }
-
         return view('home');
     }
 

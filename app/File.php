@@ -27,4 +27,9 @@ class File extends Model
         $status = \Illuminate\Support\Facades\File::delete($path);
         return $status;
     }
+
+    public function link()
+    {
+        return "/storage/" . $this->filename;
+    }
 }

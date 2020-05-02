@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class PhotoController extends Controller
 {
@@ -18,7 +19,9 @@ class PhotoController extends Controller
             abort(404);
         }
 
-        return response()->file($path);
+        $photo = Image::make($path)->resize(200, 200);
+
+        return $photo->response('jpg');
     }
 
     public function delete(File $file)

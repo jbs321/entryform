@@ -7,8 +7,10 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::get('/gallery/{year}', 'GalleryController@index');
+Route::get('/storage/{filename}', 'PhotoController@show');
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('/storage/{filename}', 'PhotoController@show');
     Route::post('/storage/delete/{file}', 'PhotoController@delete');
 
 
