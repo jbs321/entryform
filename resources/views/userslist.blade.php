@@ -1,10 +1,6 @@
-<?php
-$users = \App\User::all();
-?>
 <div class="card" style="margin-bottom: 30px;">
     <div class="card-header">{{ __('Registered Users') }} <a href="/admin/user/downloadExcel">Download Excel</a></div>
     <div class="card-body" style="overflow-y: scroll;height: 300px;padding: 0;">
-        {{--<div style="max-height: 600px ;overflow-y: scroll">--}}
             <table class="table table-striped" style="margin: 0">
                 <thead>
                 <tr>
@@ -30,7 +26,7 @@ $users = \App\User::all();
                         <td>{!! $user->province !!}</td>
                         <td>{!! $user->address !!}</td>
                         <td>{!! $user->postal_code !!}</td>
-                        <td>{!! $user->created_at !!}</td>
+                        <td>{!! $user->pst !!}</td>
                         <td>
                             <button type="button" class="btn btn-info"
                                     onclick="window.location = '{{'/user/'.$user['id'].'/edit'}}'" style="float: left">
@@ -46,5 +42,4 @@ $users = \App\User::all();
                 </tbody>
             </table>
         </div>
-    {{--</div>--}}
 </div>

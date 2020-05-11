@@ -197,9 +197,7 @@
       $(function () {
         onChangeDivision()
         $("select#category option[value={{$carving->category}}]").prop('selected', true)
-      })
 
-      $(function () {
         $('#upload-images').on('click', function (e) {
           e.preventDefault()
 

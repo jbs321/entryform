@@ -1,12 +1,3 @@
-<?php
-use App\Carving;
-$carvings = Carving::all();
-$carvings = $carvings->map(function(Carving $carving) {
-    $carving->user;
-    return $carving;
-});
-?>
-
 @extends('layouts.app')
 
 @section('content')
@@ -65,7 +56,7 @@ $carvings = $carvings->map(function(Carving $carving) {
                     </div>
                 </div>
 
-                @include('userslist');
+                @include('userslist', compact('users'));
             </div>
         </div>
     </div>

@@ -3,23 +3,46 @@
 @section('content')
 
     <div class="container page-top">
-        <div class="row">
-            <hr class="my-5" />
-            <div class="gallery"></div>
-            @foreach($carvings as $carving)
-                @foreach($carving->photos as $photo)
-                    <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                        <a href="{{ $photo->link() }}" data-fancybox="carving" rel="ligthbox" data-caption="{{$carving->description}}">
-                            <img src="{{ $photo->link() }}" class="zoom img-fluid" alt="{{$carving->description}}" style='background: url("https://66.media.tumblr.com/919795f053eee482e124e78671653838/tumblr_puozmqlhsd1xpfoefo1_250.gifv");background-size: 100% 100%; min-height: 200px; min-width: 100%'>
-                        </a>
+        <form action="/gallery" method="get">
+            <div class="row form-group">
+                <div class="col-md-10 offset-1">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3">
+                            @component('components.Select.skill')
+                            @endcomponent
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                            @component('components.Select.division', compact('divisions'))
+                            @endcomponent
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                            @component('components.Select.category', compact('divisionsCategories'))
+                            @endcomponent
+                        </div>
+                        <div class="col-xs-6 col-md-1">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
                     </div>
-                @endforeach
-            @endforeach
-        </div>
+                </div>
+            </div>
+        </form>
     </div>
 
+
+    @component('components.carving-gallery', compact('carvings'))
+    @endcomponent
+
+
     <script>
+      function onChangeDivisionLocal () {
+        onChangeDivision('#division', '#category')
+      }
+
       $(function () {
+        onChangeDivision('#division', '#category')
+
         $('.zoom').hover(function () {
           $(this).addClass('transition')
         }, function () {
@@ -27,6 +50,10 @@
         })
 
         $('[data-fancybox="carving"]').fancybox(window.fancybox.defaults)
+      })
+
+      $(window).on('load', function () {
+        $('.loader').hide()
       })
     </script>
 @endsection

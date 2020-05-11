@@ -340,7 +340,8 @@ class CarvingController extends Controller
             }
         }
 
-        return $this->index();
+        $photos = $carving->photos()->get();
+        return view('editcarving', ['carving' => $carving, 'carvingId' => $carving->id, 'photos' => $photos]);
     }
 }
 

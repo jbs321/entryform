@@ -117,10 +117,9 @@ window.fancybox.defaults = {
   caption: function( instance, item ) {
     var caption = $(this).data('caption') || '';
     
-    console.log(caption);
-  
     if ( item.type === 'image' ) {
-      caption = (caption.length ? caption + '<br />' : '') + '<a href="' + item.src + '">Download image</a>' ;
+      console.log(caption);
+      caption = (caption.length ? caption.replace(new RegExp(',', 'g'), '<br />') : '') ;
     }
   
     return caption;
@@ -202,7 +201,7 @@ window.fancybox.defaults = {
   // =======================
   
   fullScreen: {
-    autoStart: true
+    autoStart: false
   },
   
   // Set `touch: false` to disable panning/swiping

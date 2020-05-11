@@ -1,9 +1,21 @@
+require('./bootstrap')
+require('./fancybox')
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+function onChangeDivision (divisionSelector, categorySelector) {
+  var division = $(divisionSelector).val()
+  
+  $(categorySelector).children().each(function () {
+    $(this).addClass('hidden')
+    $(this).attr('disabled', 'true')
+  })
+  
+  $(categorySelector + ' option[division="' + division + '"]').each(function () {
+    $(this).removeClass('hidden')
+    $(this).removeAttr('disabled')
+  })
+  
+  $(categorySelector).val($(categorySelector + ' option[division="' + division + '"]').first().val())
+  
+}
 
-// require('./bootstrap');
-require('./fancybox');
+window.onChangeDivision = onChangeDivision

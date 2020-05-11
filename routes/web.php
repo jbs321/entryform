@@ -1,23 +1,27 @@
 <?php
+
 use \App\Http\Middleware\AuthorizeCarvingChangeMiddleware;
 use \App\Http\Middleware\checkAdmin;
 use \App\Http\Middleware\AuthorizeUserChangeMiddleware;
 
-Auth::routes();
+\Illuminate\Support\Facades\Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/gallery/{year}', 'GalleryController@index');
+
+
 Route::get('/storage/{filename}', 'PhotoController@show');
+Route::get('/storage/{filename}/{size}', 'PhotoController@showWithSize');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/gallery', 'GalleryController@index');
     Route::post('/storage/delete/{file}', 'PhotoController@delete');
 
 
     Route::name('carving')->post('/carving', 'CarvingController@create');
 
     //User protected Routes
-    Route::middleware([AuthorizeUserChangeMiddleware::class])->group(function() {
+    Route::middleware([AuthorizeUserChangeMiddleware::class])->group(function () {
         Route::get('/carving/excel/{user}', 'CarvingController@downloadCarvingsForUser');
         Route::post('/user/{user}/record-payment', 'UserController@recordPayment');
         Route::get('/user/{user}/view-payments', 'UserController@viewPayments');
@@ -26,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     //Carving protected Routes
-    Route::middleware([AuthorizeCarvingChangeMiddleware::class])->group(function() {
+    Route::middleware([AuthorizeCarvingChangeMiddleware::class])->group(function () {
         Route::get('carving/{carving}/edit', 'CarvingController@edit');
         Route::post('/carving/{carving}/delete', 'CarvingController@delete');
         Route::post('carving/{carving}/update', 'CarvingController@update');
@@ -49,10 +53,4 @@ Route::middleware(['auth', checkAdmin::class])->group(function () {
     Route::post('/admin/carving/{carving}/update', 'CarvingController@update');
 
     Route::get('/admin/payments', 'PaymentController@show');
-});
-
-Route::get('/test', function () {
-    $num = 1;
-    $sum = \App\Http\Controllers\HomeController::calcPrice($num);
-    return new \Illuminate\Http\JsonResponse($sum);
 });

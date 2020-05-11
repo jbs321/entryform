@@ -3,28 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Carving;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class GalleryController extends Controller
 {
-    public function index(int $year)
+    public function index(Request $request)
     {
-        $carvings = Carving::all()->map(function(Carving $carving) {
-            $carving->photos;
-            return $carving;
-        });
+        $request->flash();
 
-        return view('gallery', compact('carvings'));
-    }
+        $skill = $request->get('skill');
+        $division = $request->get('division');
+        $category = $request->get('category');
 
-    public function index2(int $year)
-    {
-        $carvings = Carving::all()->map(function(Carving $carving) {
-            $carving->photos;
-            return $carving;
-        });
+        /** @var Collection $carvings */
+        $carvings = Carving::where(function ($query) use ($skill, $division, $category){
+            if($skill) {
+                $query->where('skill', $skill);
+            }
+            if ($division) {
+                $query->where('division', $division);
+            }
 
-        return view('gallery2', compact('carvings'));
+            if ($category) {
+                $query->where('category', $category);
+            }
+        })
+            ->with('photos')
+            ->paginate(8);
+
+        $divisions = CarvingController::DIVISIONS;
+        $divisionsCategories = CarvingController::CATEGORIES;
+
+        return view('gallery', compact('carvings', 'divisions', 'divisionsCategories'));
     }
 }
