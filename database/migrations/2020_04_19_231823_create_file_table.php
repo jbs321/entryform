@@ -24,8 +24,7 @@ class CreateFileTable extends Migration
             $table->timestamps();
 
             $table->index(['carving_id']);
-            $table->foreign('carving_id')->references('id')->on('carvings')
-                ->onDelete('cascade');
+            $table->foreign('carving_id')->references('id')->on('carvings')->onDelete('cascade');
         });
     }
 

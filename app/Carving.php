@@ -13,6 +13,7 @@ class Carving extends Model
         "category",
         "description",
         "is_for_sale",
+        "nomination",
     ];
 
     public function user()

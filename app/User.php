@@ -12,6 +12,10 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    const ROLE_VISITOR = 0;
+    const ROLE_JUDGE = 10;
+    const ROLE_ADMIN = 20;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -97,5 +101,10 @@ class User extends Authenticatable
     {
         $outstanding = $this->price() - $this->payments();
         return $outstanding;
+    }
+
+    public function role()
+    {
+        return $this->hasOne(UserRole::class, 'id', 'user_role')->first();
     }
 }
