@@ -14263,7 +14263,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(35);
+module.exports = __webpack_require__(36);
 
 
 /***/ }),
@@ -14271,7 +14271,7 @@ module.exports = __webpack_require__(35);
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-__webpack_require__(40);
+__webpack_require__(35);
 
 function onChangeDivision(divisionSelector, categorySelector) {
   var division = $(divisionSelector).val();
@@ -37039,16 +37039,6 @@ module.exports = function spread(callback) {
 /* 35 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */
-/***/ (function(module, exports) {
-
 window.fancybox = {};
 window.fancybox.defaults = {
   // Close existing modals
@@ -37086,11 +37076,11 @@ window.fancybox.defaults = {
   // What buttons should appear in the top right corner.
   // Buttons will be created using templates from `btnTpl` option
   // and they will be placed into toolbar (class="fancybox-toolbar"` element)
-  buttons: ['thumbs',
+  buttons: ['nominate', 'thumbs',
   // "share",
   'slideShow',
   // "fullScreen",
-  'zoom', "download", 'close'],
+  'zoom', 'download', 'close'],
 
   // Detect "idle" time in seconds
   idleTime: 3,
@@ -37182,6 +37172,8 @@ window.fancybox.defaults = {
   errorTpl: '<div class="fancybox-error"><p>{{ERROR}}</p></div>',
 
   btnTpl: {
+    nominate: '<a data-fancybox-nominate class="fancybox-button nominate" title="Nominate" href="#">' + '<img src="/images/trophy.svg" alt="Nominate">' + '</a>',
+
     download: '<a download data-fancybox-download class="fancybox-button fancybox-button--download" title="{{DOWNLOAD}}" href="javascript:;">' + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.62 17.09V19H5.38v-1.91zm-2.97-6.96L17 11.45l-5 4.87-5-4.87 1.36-1.32 2.68 2.64V5h1.92v7.77z"/></svg>' + '</a>',
 
     zoom: '<button data-fancybox-zoom class="fancybox-button fancybox-button--zoom" title="{{ZOOM}}">' + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.7 17.3l-3-3a5.9 5.9 0 0 0-.6-7.6 5.9 5.9 0 0 0-8.4 0 5.9 5.9 0 0 0 0 8.4 5.9 5.9 0 0 0 7.7.7l3 3a1 1 0 0 0 1.3 0c.4-.5.4-1 0-1.5zM8.1 13.8a4 4 0 0 1 0-5.7 4 4 0 0 1 5.7 0 4 4 0 0 1 0 5.7 4 4 0 0 1-5.7 0z"/></svg>' + '</button>',
@@ -37267,18 +37259,28 @@ window.fancybox.defaults = {
 
   // See Documentation/API/Events for more information
   // Example:
-  /*
-    afterShow: function( instance, current ) {
-      console.info( 'Clicked element:' );
-      console.info( current.opts.$orig );
-    }
-  */
+  afterShow: function afterShow(instance, current) {
+    var carvingTag = $('.fancybox-slide--current img').attr('src').split('_')[2];
+
+    $('.fancybox-button.nominate').click(function () {
+      window.location.href = "/nominate/" + carvingTag;
+    });
+
+    //   console.info('Clicked element:')
+    //   console.info(current.opts.$orig)
+  },
 
   onInit: $.noop, // When instance has been initialized
 
   beforeLoad: $.noop, // Before the content of a slide is being loaded
   afterLoad: $.noop // When the content of a slide is done loading
 };
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
