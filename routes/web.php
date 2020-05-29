@@ -3,19 +3,21 @@
 use \App\Http\Middleware\AuthorizeCarvingChangeMiddleware;
 use \App\Http\Middleware\checkAdmin;
 use \App\Http\Middleware\AuthorizeUserChangeMiddleware;
+use \App\Http\Middleware\checkRoleJudgeMiddleware;
 
 \Illuminate\Support\Facades\Auth::routes();
 
+
 Route::get('/', 'HomeController@index')->name('home');
-
-
-
 Route::get('/storage/{filename}', 'PhotoController@show');
 Route::get('/storage/{filename}/{size}', 'PhotoController@showWithSize');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/', 'HomeController@index')->name('home');
+
     Route::get('/gallery', 'GalleryController@index');
     Route::post('/storage/delete/{file}', 'PhotoController@delete');
+    Route::get('/gallery/download/photo/{carving}', 'GalleryController@downloadImage');
 
 
     Route::name('carving')->post('/carving', 'CarvingController@create');
@@ -38,6 +40,16 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+Route::middleware(['auth', checkRoleJudgeMiddleware::class])->group(function () {
+    //replacement
+    Route::get('/carving/{carving}/award', 'CarvingController@editAward');
+
+
+    Route::post('/carving/{carving}/award', 'CarvingController@saveAward');
+
+
+});
+
 Route::middleware(['auth', checkAdmin::class])->group(function () {
     Route::get('carving/print/all', 'CarvingController@downloadCarvingsForAll');
     Route::get('/tickets', 'HomeController@showTicket');
@@ -54,3 +66,4 @@ Route::middleware(['auth', checkAdmin::class])->group(function () {
 
     Route::get('/admin/payments', 'PaymentController@show');
 });
+

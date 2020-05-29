@@ -30,9 +30,20 @@
         </form>
     </div>
 
+    <div class="container">
+        <div class="row paginator-row">
+            {{ $carvings->appends(['skill' => $_GET['skill'] ?? null, 'division' => $_GET['division'] ?? null, 'category' => $_GET['category'] ?? null])->links() }}
+        </div>
+    </div>
 
     @component('components.carving-gallery', compact('carvings'))
     @endcomponent
+
+    <div class="container">
+        <div class="row paginator-row">
+            {{ $carvings->appends(['skill' => $_GET['skill'] ?? null, 'division' => $_GET['division'] ?? null, 'category' => $_GET['category'] ?? null])->links() }}
+        </div>
+    </div>
 
 
     <script>
@@ -41,19 +52,28 @@
       }
 
       $(function () {
-        onChangeDivision('#division', '#category')
-
         $('.zoom').hover(function () {
           $(this).addClass('transition')
         }, function () {
           $(this).removeClass('transition')
         })
 
-        $('[data-fancybox="carving"]').fancybox(window.fancybox.defaults)
-      })
+        $('.ribbon').hover(function () {
+          $(this).addClass('transition-cool')
+        }, function () {
+          $(this).removeClass('transition-cool')
+        })
 
-      $(window).on('load', function () {
-        $('.loader').hide()
+        var fb_default = window.fancybox.defaults
+
+          @if($user->user_role != \App\User::ROLE_JUDGE)
+          if (fb_default.btnTpl.nominate !== undefined) {
+            delete fb_default.btnTpl.nominate
+          }
+          @endif
+
+          $('[data-fancybox="carving"]').fancybox(fb_default)
+
       })
     </script>
 @endsection

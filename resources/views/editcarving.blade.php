@@ -3,20 +3,19 @@
 @section('content')
 
     <?php
-    $user = \Illuminate\Support\Facades\Auth::user();
     $fullName = "$user->fname $user->lname";
     $email = "$user->email";
     $link = "https://docs.google.com/forms/d/e/1FAIpQLSd2pFqE9YzyUf50jJA7nGvYEggnSH6_ziJYAnlBjRiXGDgTlg/viewform?usp=pp_url&entry.199823495=full_name&entry.1383365882=carving_tag_number&entry.1373471256=email&entry.271632587=skill&entry.1311842077=division&entry.1137483383=category";
     $link = str_replace("full_name", $fullName, $link);
     $link = str_replace("email", $user->email, $link);
-    $link = str_replace("carving_tag_number", "$carvingId", $link);
+    $link = str_replace("carving_tag_number", "$carving->id", $link);
     $link = str_replace("skill", $carving->skill, $link);
     $link = str_replace("division", $carving->division, $link);
     $link = str_replace("category", $carving->category, $link);
     ?>
 
 
-    <div class="card container" style="padding: 0">
+    <div class="card container padding-0">
         <div class="card-header">Edit Carving</div>
 
         <div class="card-body">
@@ -26,14 +25,17 @@
                 </div>
             @endif
 
-            <form method="POST" action="/carving/{{ $carving->id }}/update" method="POST" enctype="multipart/form-data">
+            <form method="POST"
+                  action="/carving/{{ $carving->id }}/update"
+                  class="carving-form" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group row">
                     <label for="skill" class="col-md-4 col-form-label text-md-right">{{ __('Skill Level') }}</label>
-
+                    <?php $isValid = $errors->has('skill') ? ' is-invalid' : ''; ?>
                     <div class="col-md-6">
                         {!! Form::select('skill', [
+                               ""             => "",
                                "Student"      => "Student",
                                "Novice"       => "Novice",
                                "Intermediate" => "Intermediate",
@@ -43,7 +45,7 @@
                             "id"            => "skill",
                             "required"      => "required",
                             "autofocus"     => "autofocus",
-                            "class"         => "form-control " . $errors->has('skill') ? ' is-invalid' : '',
+                            "class"         => "form-control $isValid",
                         ])!!}
                         @if ($errors->has('skill'))
                             <span class="invalid-feedback"><strong>{{ $errors->first('skill') }}</strong></span>
@@ -53,14 +55,14 @@
 
                 <div class="form-group row">
                     <label for="division" class="col-md-4 col-form-label text-md-right">{{ __('Division') }}</label>
-
+                    <?php $isValid = $errors->has('division') ? ' is-invalid' : ''; ?>
                     <div class="col-md-6">
                         {!! Form::select('division', \App\Http\Controllers\CarvingController::DIVISIONS, $carving->division,  [
                             "id"            => "division",
                             "required"      => "required",
                             "autofocus"     => "autofocus",
                             "onchange"      => "onChangeDivision(this)",
-                            "class"         => "form-control " . $errors->has('division') ? ' is-invalid' : '',
+                            "class"         => "form-control $isValid",
                         ])!!}
                         @if ($errors->has('division'))
                             <span class="invalid-feedback"><strong>{{ $errors->first('division') }}</strong></span>
@@ -74,15 +76,13 @@
 
                     <div class="col-md-6">
 
-                        {{$isValid = $errors->has('category') ? ' is-invalid' : ''}}
+                        <?php $isValid = $errors->has('category') ? ' is-invalid' : ''; ?>
 
                         <select name="category"
                                 id="category"
                                 required
                                 autofocus
-                                value="{{$carving->category}}"
-                                style="padding: 0;"
-                                class={{"col-md-12 form-control " . $isValid}}>
+                                class="form-control {!! $isValid !!}">
 
                             @foreach(\App\Http\Controllers\CarvingController::CATEGORIES as $division => $categories)
                                 @foreach($categories as $id => $category)
@@ -116,7 +116,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="division" class="col-md-4 col-form-label text-md-right">{{ __('Is For Sale?') }}</label>
+                    <label for="is_for_sale" class="col-md-4 col-form-label text-md-right">{{ __('Is For Sale?') }}</label>
 
                     <div class="col-md-6">
                         {!! Form::select('is_for_sale', [
@@ -126,7 +126,7 @@
                             "id"            => "is_for_sale",
                             "required"      => "required",
                             "autofocus"     => "autofocus",
-                            "class"         => "form-control " . $errors->has('is_for_sale') ? ' is-invalid' : '',
+                            "class"         => implode(" ", ["form-control", $errors->has('is_for_sale') ?? ' is-invalid']),
                         ])!!}
                         @if ($errors->has('is_for_sale'))
                             <span class="invalid-feedback"><strong>{{ $errors->first('is_for_sale') }}</strong></span>
@@ -139,7 +139,7 @@
 
                     <?php $isValid = $errors->has('photos') ? ' is-invalid' : ''; ?>
                     <div class="col-md-6">
-                        {!! Form::file('photos[]', ['multiple' => true, "accept" => "image/*", 'id' => 'photos', 'class' => "form-control $isValid col-11" ]) !!}
+                        {!! Form::file('photos[]', ['multiple' => true, "accept" => "image/*", 'id' => 'photos', 'class' => "form-control $isValid col-11", "style" => "padding: 3px;" ]) !!}
                         <span style="font-style: italic; font-size: 13px">Upload photos from the same location</span>
                         @if ($errors->has('photos'))
                             <span class="invalid-feedback"><strong>{{ $errors->first('photos') }}</strong></span>
@@ -174,9 +174,12 @@
 
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-primary" id="submit-carving">{{ __('Save Changes') }}</button>
+                        <button type="submit" class="btn btn-primary"
+                                id="submit-carving">{{ __('Save Changes') }}</button>
                         <button type="button" class="btn btn-secondary" id="cancel-carving">{{ __('Cancel') }}</button>
-                        <span id="spinner" style="display: none"><img src="https://cdn.lowgif.com/full/ee5eaba393614b5e-pehliseedhi-suitable-candidate-suitable-job.gif" alt="Loading..." style="width: 50px; height: 50px"></span>
+                        <span id="spinner" style="display: none"><img
+                                    src="https://cdn.lowgif.com/full/ee5eaba393614b5e-pehliseedhi-suitable-candidate-suitable-job.gif"
+                                    alt="Loading..." style="width: 50px; height: 50px"></span>
                     </div>
                 </div>
             </form>
@@ -245,14 +248,14 @@
           }
         })
 
-        $("#cancel-carving").click(function (e) {
-          e.preventDefault();
-          window.location.href = "/";
-        });
+        $('#cancel-carving').click(function (e) {
+          e.preventDefault()
+          window.location.href = '/'
+        })
 
         $('#submit-carving').on('click', function () {
-          $('#spinner').css('display', 'inline');
-          $('form').disable();
+          $('#spinner').css('display', 'inline')
+          $('form').disable()
         })
 
       })

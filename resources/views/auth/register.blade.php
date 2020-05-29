@@ -4,6 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div style="margin-bottom: 10px">
+                Already have an account? <a href="/login">Click Here</a>
+            </div>
             <div class="card">
                 <div class="card-header">{{ __('Step 1: Register Personal Details') }}</div>
 

@@ -26,6 +26,11 @@ class Carving extends Model
         return $this->hasMany(File::class, 'carving_id', 'id');
     }
 
+    public function awards()
+    {
+        return $this->hasMany(CarvingData::class, 'carving_id', 'id');
+    }
+
     public function deletePhotos()
     {
         /** @var File $photo */

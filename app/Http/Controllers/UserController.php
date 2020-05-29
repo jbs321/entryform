@@ -28,7 +28,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return view('admin');
+        return redirect('home');
     }
 
     public function downloadExcel()

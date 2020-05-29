@@ -12,7 +12,8 @@ $user = \Illuminate\Support\Facades\Auth::user();
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Virtual Carving Show</title>
+    <link rel="icon" href="https://cdn3.iconfinder.com/data/icons/construction-tools-filled-color-1/300/15544012Untitled-3-512.png">
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
@@ -33,6 +34,14 @@ $user = \Illuminate\Support\Facades\Auth::user();
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+    {{-- Social media --}}
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <meta property="og:url"           content="https://entryform.richmondcarvers.com" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Virtual Carving Show" />
+    <meta property="og:description"   content="Virtual Carving Show" />
+    <meta property="og:image"         content="https://entryform.richmondcarvers.com/storage/carving_61_42_0.jpg" />
 </head>
 
 <style>
@@ -45,7 +54,7 @@ $user = \Illuminate\Support\Facades\Auth::user();
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }} - Richmond Carvers - Carving Show 2020
+                Richmond Carvers - Carving Show 2020
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

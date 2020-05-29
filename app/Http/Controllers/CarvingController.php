@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Carving;
+use App\CarvingData;
 use App\Exports\CarvingsExports;
 use App\File;
 use App\Http\Requests\NewCarvingRequest;
 use App\Mail\NewCarving;
 use App\Mail\NewCarving2;
 use App\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
@@ -198,6 +200,33 @@ class CarvingController extends Controller
         'Amount',
     ];
 
+    const DATA_TYPE = "awards";
+
+    const CARVING_DATA_TYPES = [
+        self::DATA_TYPE,
+    ];
+
+    const AWARDS = [
+        'First',
+        'BoD Beginner',
+        'BoS Beginner',
+        'Honourable Mention',
+
+        'Second',
+        'BoD Novice',
+        'BoS Novice',
+        'Best of Show',
+
+        'Third',
+        'BoD Intermediate',
+        'BoS Intermediate',
+        'T P Award of Excellence',
+
+        'BoD Advanced',
+        'BoS Advanced',
+        'BoS Expert',
+    ];
+
     public function __construct(\Maatwebsite\Excel\Excel $excel)
     {
         $this->excel = $excel;
@@ -301,15 +330,29 @@ class CarvingController extends Controller
     public function edit(Carving $carving)
     {
         $photos = $carving->photos()->get();
-        return view('editcarving', ['carving' => $carving, 'carvingId' => $carving->id, 'photos' => $photos]);
+        $user = Auth::user();
+        return view('editcarving', compact('user', 'carving', 'photos'));
     }
 
     public function update(Request $request, Carving $carving)
     {
         $request->validate([
             "skill" => 'required|string|max:255',
-            "division" => 'required|string|max:255',
-            "category" => 'required|string|max:255',
+            "division" => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            "category" => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) use ($request) {
+                    if (!in_array($value, array_keys(self::CATEGORIES[$request->division]))) {
+                        return $fail('Category doesn\'t match the division');
+                    }
+                },
+            ],
             "description" => 'required|string|max:255',
             "is_for_sale" => 'required|boolean',
             "photos" => ['array', function ($attribute, $value, $fail) {
@@ -324,6 +367,7 @@ class CarvingController extends Controller
             ],
             "photos.*" => 'image|mimes:jpeg,png,jpg,git|max:4000'
         ]);
+
 
         /** @var User $user */
         $user = Auth::user();
@@ -341,7 +385,40 @@ class CarvingController extends Controller
         }
 
         $photos = $carving->photos()->get();
-        return view('editcarving', ['carving' => $carving, 'carvingId' => $carving->id, 'photos' => $photos]);
+        $user = Auth::user();
+        return view('editcarving', compact('carving', 'photos', 'user'));
+    }
+
+    public function editAward(Carving $carving)
+    {
+        $awards = self::AWARDS;
+        $photo = $carving->photos()->first();
+        $selected = $carving->awards()->get()->map(function (CarvingData $cd) {
+            return $cd->value;
+        })->toArray();
+
+        return view('award', compact('awards', 'carving', 'photo', 'selected'));
+    }
+
+    public function saveAward(Carving $carving, Request $request)
+    {
+        CarvingData::where('carving_id', $carving->id)->delete();
+
+        $awards = [];
+        foreach ($request->all() as $item) {
+            if (in_array($item, self::AWARDS)) {
+                $awards [] = [
+                    "carving_id" => $carving->id,
+                    "carving_data_type_id" => 1,
+                    "value" => $item,
+                ];
+            }
+        }
+
+
+        CarvingData::insert($awards);
+
+        return redirect('gallery');
     }
 }
 

@@ -1,5 +1,12 @@
 window.fancybox = {}
 window.fancybox.defaults = {
+  helpers : {
+    title: {
+      type: 'inside',
+      position: 'top'
+    }
+  },
+  
   // Close existing modals
   // Set this to false if you do not need to stack multiple instances
   closeExisting: false,
@@ -20,7 +27,7 @@ window.fancybox.defaults = {
   arrows: true,
   
   // Should display counter at the top left corner
-  infobar: true,
+  infobar: false,
   
   // Should display close button (using `btnTpl.smallBtn` template) over the content
   // Can be true, false, "auto"
@@ -36,12 +43,12 @@ window.fancybox.defaults = {
   // Buttons will be created using templates from `btnTpl` option
   // and they will be placed into toolbar (class="fancybox-toolbar"` element)
   buttons: [
+    'nominate',
     'thumbs',
-    // "share",
     'slideShow',
-    // "fullScreen",
+    "fullScreen",
     'zoom',
-    "download",
+    'download',
     'close'
   ],
   
@@ -114,15 +121,12 @@ window.fancybox.defaults = {
   // Custom CSS class for layout
   baseClass: '',
   
-  caption: function( instance, item ) {
+  caption: function (instance, item) {
     var caption = $(this).data('caption') || '';
-    
-    if ( item.type === 'image' ) {
-      console.log(caption);
-      caption = (caption.length ? caption.replace(new RegExp(',', 'g'), '<br />') : '') ;
-    }
   
-    return caption;
+    if(caption.length == 0) return "";
+    
+    return "<div class='caption-text-warpper'>"+caption+"</div>";
   },
   
   // Base template for layout
@@ -131,6 +135,7 @@ window.fancybox.defaults = {
     '<div class="fancybox-bg"></div>' +
     '<div class="fancybox-inner">' +
     '<div class="fancybox-infobar"><span data-fancybox-index></span>&nbsp;/&nbsp;<span data-fancybox-count></span></div>' +
+    '<div class="fancybox-title"></div>' +
     '<div class="fancybox-toolbar">{{buttons}}</div>' +
     '<div class="fancybox-navigation">{{arrows}}</div>' +
     '<div class="fancybox-stage"></div>' +
@@ -145,8 +150,19 @@ window.fancybox.defaults = {
   errorTpl: '<div class="fancybox-error"><p>{{ERROR}}</p></div>',
   
   btnTpl: {
+    fb: '<button data-fancybox-fb class="fancybox-button fancybox-button--fb" title="Facebook">' +
+      '<svg viewBox="0 0 24 24">' +
+      '<path d="M22.676 0H1.324C.594 0 0 .593 0 1.324v21.352C0 23.408.593 24 1.324 24h11.494v-9.294h-3.13v-3.62h3.13V8.41c0-3.1 1.894-4.785 4.66-4.785 1.324 0 2.463.097 2.795.14v3.24h-1.92c-1.5 0-1.793.722-1.793 1.772v2.31h3.584l-.465 3.63h-3.12V24h6.115c.733 0 1.325-.592 1.325-1.324V1.324C24 .594 23.408 0 22.676 0"/>' +
+      '</svg>' +
+      '</button>',
+    
+    nominate:
+      '<a data-fancybox-nominate class="fancybox-button nominate" title="Award" href="#">' +
+      '<img src="/images/trophy.svg" alt="Nominate">' +
+      '</a>',
+    
     download:
-      '<a download data-fancybox-download class="fancybox-button fancybox-button--download" title="{{DOWNLOAD}}" href="javascript:;">' +
+      '<a class="fancybox-button download"  title="{{DOWNLOAD}}" href="#">' +
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.62 17.09V19H5.38v-1.91zm-2.97-6.96L17 11.45l-5 4.87-5-4.87 1.36-1.32 2.68 2.64V5h1.92v7.77z"/></svg>' +
       '</a>',
     
@@ -246,17 +262,55 @@ window.fancybox.defaults = {
   // Callbacks
   //==========
   
+  downloadFile: function(data, fileName, type="text/plain") {
+    // Create an invisible A element
+    const a = document.createElement("a");
+    a.style.display = "none";
+    document.body.appendChild(a);
+    
+    // Set the HREF to a Blob representation of the data to be downloaded
+    a.href = window.URL.createObjectURL(
+      new Blob([data], { type })
+    );
+    
+    // Use download attribute to set set desired file name
+    a.setAttribute("download", fileName);
+    
+    // Trigger the download by simulating click
+    a.click();
+    
+    // Cleanup
+    window.URL.revokeObjectURL(a.href);
+    document.body.removeChild(a);
+  },
+  
   // See Documentation/API/Events for more information
   // Example:
-  /*
-    afterShow: function( instance, current ) {
-      console.info( 'Clicked element:' );
-      console.info( current.opts.$orig );
-    }
-  */
+  afterShow: function (instance, current) {
+    const carvingTag = $('.fancybox-slide--current img').attr('src').split('_')[2];
+    $('.fancybox-button.nominate').click(function(e) {
+      e.preventDefault();
+      window.location.href = "/carving/" + carvingTag + "/award";
+    })
+  
+    $('.fancybox-button.download').click(function(e) {
+      e.preventDefault();
+      var a = $("<a>").attr("href", "/gallery/download/photo/" + carvingTag)
+        .attr("download", "Carving.jpeg")
+        .attr("style", "visibility:none")
+        .appendTo("body");
+      a[0].click();
+      a.remove();
+    })
+  },
+  
+  beforeShow: function() {
+    this.title = 'beforeShow changed title';
+  },
   
   onInit: $.noop, // When instance has been initialized
   
   beforeLoad: $.noop, // Before the content of a slide is being loaded
   afterLoad: $.noop, // When the content of a slide is done loading
 }
+

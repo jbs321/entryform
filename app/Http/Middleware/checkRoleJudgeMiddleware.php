@@ -17,7 +17,7 @@ class checkRoleJudgeMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->user_role !== User::ROLE_JUDGE) {
+        if (Auth::user()->user_role != User::ROLE_JUDGE) {
             return redirect('home');
         }
 

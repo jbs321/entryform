@@ -20,6 +20,8 @@ class AdminController extends Controller
 
         $carvings = Carving::with('user')->get();
 
-        return view('admin', compact('carvings', 'users'));
+        $categories = CarvingController::CATEGORIES;
+
+        return view('admin', compact('carvings', 'users', 'categories'));
     }
 }

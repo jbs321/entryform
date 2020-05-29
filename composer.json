@@ -27,7 +27,8 @@
             "database/factories"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "jbs321\\laravel-sirv\\": "package/jbs321/laravel-sirv/src"
         }
     },
     "autoload-dev": {
