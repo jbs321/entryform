@@ -5,11 +5,11 @@
         @foreach($carvings as $carving)
             @foreach($carving->photos as $idx => $photo)
                 <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a href="https://bonathea.sirv.com/Images/{{ $photo->filename }}"
+                    <a href="{{env('SIRV_PATH')}}Images/{{ $photo->filename }}"
                        data-fancybox="carving"
                        data-title="{{$carving->description}}"
                        data-tag="{{$carving->id}}"
-                       data-caption='<div><b>Tag No.</b>: {{$carving->id}}</div><div><b>Skill</b>: {{$carving->skill}}</div><div><b>Divison</b>: {{$carving->division}}</div><div><b>Category</b>: {{$carving->category}}</div><div class="carving-description">{{$carving->description}}</div><div class="ribbon-show-wrapper">{{$carving->awardsShow}}</div>'
+                       data-caption='<div><b>Tag No.</b>: {{$carving->id}}</div><div><b>Artist</b>: {{$carving->user->fname . " " . $carving->user->lname}}</div><div><b>From</b>: {{implode(", ", array_filter([$carving->user->country, $carving->user->city]))}}</div><div><b>Skill</b>: {{$carving->skill}}</div><div><b>Divison</b>: {{$carving->division}}</div><div><b>Category</b>: {{$carving->category}}</div><div class="carving-description">{{$carving->description}}</div><div class="ribbon-show-wrapper">{{$carving->awardsShow}}</div>'
                        rel="ligthbox">
                         <div class="skeleton-loader">
                             <div class="avatar"></div>
@@ -20,7 +20,7 @@
                         <img class="zoom img-fluid carving"
                              onerror="this.style.display='none'"
                              src=""
-                             data-src="https://bonathea.sirv.com/Images/{{ $photo->filename }}"
+                             data-src="{{env('SIRV_PATH')}}Images/{{ $photo->filename }}"
                              data-errsrc="/storage/{{ $photo->filename }}"
                              alt="{{$carving->description}}">
 
@@ -32,7 +32,7 @@
                                         height: 77%;
                                         z-index: {{$idx}};
                                         left: {{(-25 + $idx * 35)  . "px"}};
-                                        top: -18px;" src="/images/ribbon/{{$award->value}}.gif" alt="">
+                                        top: -18px;" src="{{env('SIRV_PATH')}}ribbons/{{$award->value}}.gif" alt="">
                             @endforeach
                         @endif
                     </a>

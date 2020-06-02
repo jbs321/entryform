@@ -107,4 +107,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserRole::class, 'id', 'user_role')->first();
     }
+
+    public function isAdmin()
+    {
+        return $this->hasOne(UserRole::class, 'id', 'user_role')->where('name', 20)->first() || $this->is_admin;
+    }
 }

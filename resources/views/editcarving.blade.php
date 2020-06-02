@@ -116,7 +116,8 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="is_for_sale" class="col-md-4 col-form-label text-md-right">{{ __('Is For Sale?') }}</label>
+                    <label for="is_for_sale"
+                           class="col-md-4 col-form-label text-md-right">{{ __('Is For Sale?') }}</label>
 
                     <div class="col-md-6">
                         {!! Form::select('is_for_sale', [
@@ -158,12 +159,14 @@
                     <div>
                         @foreach($photos as $photo)
                             <div style="height: 90px; width:90px;position:relative; display: inline-block;float: left; margin-left: 5px;">
+                                @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
                                 <a href="#">
                                     <div style="position: absolute; height:25px; width:25px; right: 0; top: 0; z-index: 99; background-color: white; text-align: center"
                                          class="deletePhoto" storage-id="{!! $photo->id !!}">
                                         X
                                     </div>
                                 </a>
+                                @endif
                                 <a href="/storage/{!! $photo->filename !!}" target="_blank">
                                     <img style="height: 100%; width: 100%;z-index: 10;position: absolute"
                                          src="/storage/{!! $photo->filename !!}"></a>
@@ -174,12 +177,15 @@
 
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-primary"
-                                id="submit-carving">{{ __('Save Changes') }}</button>
-                        <button type="button" class="btn btn-secondary" id="cancel-carving">{{ __('Cancel') }}</button>
-                        <span id="spinner" style="display: none"><img
-                                    src="https://cdn.lowgif.com/full/ee5eaba393614b5e-pehliseedhi-suitable-candidate-suitable-job.gif"
-                                    alt="Loading..." style="width: 50px; height: 50px"></span>
+                        @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
+                            <button type="submit" class="btn btn-primary"
+                                    id="submit-carving">{{ __('Save Changes') }}</button>
+                            <button type="button" class="btn btn-secondary"
+                                    id="cancel-carving">{{ __('Cancel') }}</button>
+                            <span id="spinner" style="display: none"><img
+                                        src="https://cdn.lowgif.com/full/ee5eaba393614b5e-pehliseedhi-suitable-candidate-suitable-job.gif"
+                                        alt="Loading..." style="width: 50px; height: 50px"></span>
+                        @endif
                     </div>
                 </div>
             </form>

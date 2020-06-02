@@ -42,6 +42,17 @@ $user = \Illuminate\Support\Facades\Auth::user();
     <meta property="og:title"         content="Virtual Carving Show" />
     <meta property="og:description"   content="Virtual Carving Show" />
     <meta property="og:image"         content="https://entryform.richmondcarvers.com/storage/carving_61_42_0.jpg" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167953053-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-167953053-1');
+    </script>
+
 </head>
 
 <style>
@@ -71,8 +82,7 @@ $user = \Illuminate\Support\Facades\Auth::user();
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
                     @guest
-                        <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                        <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                        <li><a class="nav-link" href="{{ route('login') }}">{{ __('My Carvings') }}</a></li>
                         <li><a class="nav-link" href="http://richmondcarvers.com">RichmondCarvers.com</a></li>
                     @else
                         <li>

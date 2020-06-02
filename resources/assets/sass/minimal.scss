@@ -1,0 +1,110 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "variables";
+@import "mixins";
+
+// Bootstrap
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+
+$rgba: 0;
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(0deg, rgba(245, 248, 250, $rgba), rgba(245, 248, 250, $rgba)), url('https://ropityro.sirv.com/content/bg-slice.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  h1 {
+    font-size: 3.9vw;
+
+    @include breakpoint(xs) {
+      font-size: 8vw;
+    }
+  }
+
+  h2 {
+    font-size: 2vw;
+
+    @include breakpoint(xs) {
+      font-size: 4vw;
+    }
+  }
+
+  .btn {
+    width: 133px;
+    height: 54px;
+    font-size: 20px;
+    //position: absolute;
+    //left: 10px;
+    //bottom: 10px;
+    background: #d2a363;
+  }
+
+  /* Button 1 */
+  .btn-1 {
+    border: 3px solid #fff;
+    color: #fff;
+  }
+
+  /* Button 1a */
+  .btn-1a:hover,
+  .btn-1a:active {
+    color: #d2a363;
+    background: #fff;
+  }
+
+  /* Button 1b */
+  .btn-1b:after {
+    width: 100%;
+    height: 0;
+    top: 0;
+    left: 0;
+    background: #fff;
+  }
+
+  .btn-1b:hover,
+  .btn-1b:active {
+    color: #d2a363;
+  }
+
+  .btn-1b:hover:after,
+  .btn-1b:active:after {
+    height: 100%;
+  }
+}
+
+.padding-left-20 {
+  padding-left: 20px;
+}
+
+.margin-top-60 {
+  margin-top: 60px;
+}
+
+.margin-top-100 {
+  margin-top: 100px;
+}
+
+.vw-1-6 {
+  font-size: 1.6vw;
+
+  @include breakpoint(xs) {
+    font-size: 4vw;
+  }
+}
+
+.me {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999999;
+  background: #f7f7f7;
+  margin-left: 20px;
+}

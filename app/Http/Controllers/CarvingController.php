@@ -206,6 +206,11 @@ class CarvingController extends Controller
         self::DATA_TYPE,
     ];
 
+    const TYPE = [
+        'wood-carving' => 'Wood Carving',
+        'wood-turning' => 'Wood Turning',
+    ];
+
     const AWARDS = [
         'First',
         'BoD Beginner',

@@ -7,19 +7,37 @@
             <div class="row form-group">
                 <div class="col-md-10 offset-1">
                     <div class="row">
-                        <div class="col-xs-12 col-md-3">
+                        <div class="col-xs-12 col-md-3 margin-top-10">
                             @component('components.Select.skill')
                             @endcomponent
                         </div>
-                        <div class="col-xs-12 col-md-3">
+                        <div class="col-xs-12 col-md-3 margin-top-10">
                             @component('components.Select.division', compact('divisions'))
                             @endcomponent
                         </div>
-                        <div class="col-xs-12 col-md-3">
+                        <div class="col-xs-12 col-md-3 margin-top-10">
                             @component('components.Select.category', compact('divisionsCategories'))
                             @endcomponent
                         </div>
-                        <div class="col-xs-6 col-md-1">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12  col-md-3 margin-top-10">
+                            @component('components.Select.award-select', compact('awards'))
+                            @endcomponent
+                        </div>
+
+                        <div class="col-xs-12 col-md-3 margin-top-10">
+                            @component('components.Select.type', compact('types'))
+                            @endcomponent
+                        </div>
+
+                        @if(Auth::check())
+                            <div class="col-xs-12 col-md-3 margin-top-10" style="padding-top: 8px;">
+                                {{Form::checkbox("my_carving", old('my_carving'), false)}} Show Only My Carvings
+                            </div>
+                        @endif
+
+                        <div class="col-xs-6 margin-top-10 @if(!Auth::check()) offset-md-3 @endif col-md-1">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa fa-search"></i>
                             </button>
@@ -30,20 +48,14 @@
         </form>
     </div>
 
-    <div class="container">
-        <div class="row paginator-row">
-            {{ $carvings->appends(['skill' => $_GET['skill'] ?? null, 'division' => $_GET['division'] ?? null, 'category' => $_GET['category'] ?? null])->links() }}
-        </div>
+    <div class="container padding-10">
+        @component('components.carving-paginator', compact('carvings')) @endcomponent
+
+        @component('components.carving-gallery', compact('carvings')) @endcomponent
+
+        @component('components.carving-paginator', compact('carvings')) @endcomponent
     </div>
 
-    @component('components.carving-gallery', compact('carvings'))
-    @endcomponent
-
-    <div class="container">
-        <div class="row paginator-row">
-            {{ $carvings->appends(['skill' => $_GET['skill'] ?? null, 'division' => $_GET['division'] ?? null, 'category' => $_GET['category'] ?? null])->links() }}
-        </div>
-    </div>
 
 
     <script>
@@ -66,7 +78,7 @@
 
         var fb_default = window.fancybox.defaults
 
-          @if($user->user_role != \App\User::ROLE_JUDGE)
+          @if(isset($user) && $user->user_role != \App\User::ROLE_JUDGE)
           if (fb_default.btnTpl.nominate !== undefined) {
             delete fb_default.btnTpl.nominate
           }

@@ -35,7 +35,9 @@ $carvings = $carvings->toArray();
                 <th scope="col">Category</th>
                 <th scope="col">Description</th>
                 <th scope="col">For Sale?</th>
-                <th scope="col">Actions</th>
+                @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
+                    <th scope="col">Actions</th>
+                @endif
             </tr>
             </thead>
 
@@ -48,17 +50,20 @@ $carvings = $carvings->toArray();
                     <td>{!! $carving['category']!!}</td>
                     <td>{!! $carving['description'] !!}</td>
                     <td>{!! $carving['is_for_sale'] !!}</td>
-                    <td>
-                        <button type="button" class="btn btn-info"
-                                onclick="window.location = '{{'/carving/'.$carving['id'].'/edit'}}'"
-                                style="float: left">Edit
-                        </button>
-                        <form action="/carving/{!! $carving['id'] !!}/delete" method="POST" style="float: left">
-                            {{csrf_field()}}
-                            <input type="hidden" value="{{$carving['id']}}" name="id" id="id">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
+                    @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
+                        <td>
+                            <button type="button" class="btn btn-info"
+                                    onclick="window.location = '{{'/carving/'.$carving['id'].'/edit'}}'"
+                                    style="float: left">Edit
+                            </button>
+                            <form action="/carving/{!! $carving['id'] !!}/delete" method="POST" style="float: left">
+                                {{csrf_field()}}
+                                <input type="hidden" value="{{$carving['id']}}" name="id" id="id">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+
+                        </td>
+                    @endif
                 </tr>
             @endforeach
             </tbody>
@@ -66,9 +71,11 @@ $carvings = $carvings->toArray();
     </div>
 
     <div class="card-footer">
-        <button type="button" class="btn btn-info animated infinite pulse" onclick="addCarving()">
-            Register New Carving
-        </button>
+        @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
+            <button type="button" class="btn btn-info animated infinite pulse" onclick="addCarving()">
+                Register New Carving
+            </button>
+        @endif
 
         <?php if(count($carvings) > 0): ?>
         <a href="/carving/excel/{{\Illuminate\Support\Facades\Auth::user()->id}}">Download Excel</a>

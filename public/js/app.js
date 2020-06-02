@@ -37177,7 +37177,7 @@ window.fancybox.defaults = {
 
     nominate: '<a data-fancybox-nominate class="fancybox-button nominate" title="Award" href="#">' + '<img src="/images/trophy.svg" alt="Nominate">' + '</a>',
 
-    download: '<a class="fancybox-button download"  title="{{DOWNLOAD}}" href="#">' + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.62 17.09V19H5.38v-1.91zm-2.97-6.96L17 11.45l-5 4.87-5-4.87 1.36-1.32 2.68 2.64V5h1.92v7.77z"/></svg>' + '</a>',
+    download: '<a class="fancybox-button download" style="width: 173px;"  title="{{DOWNLOAD}}" href="#">' + '<span>Photo For Social Media</span>' + '</a>',
 
     zoom: '<button data-fancybox-zoom class="fancybox-button fancybox-button--zoom" title="{{ZOOM}}">' + '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.7 17.3l-3-3a5.9 5.9 0 0 0-.6-7.6 5.9 5.9 0 0 0-8.4 0 5.9 5.9 0 0 0 0 8.4 5.9 5.9 0 0 0 7.7.7l3 3a1 1 0 0 0 1.3 0c.4-.5.4-1 0-1.5zM8.1 13.8a4 4 0 0 1 0-5.7 4 4 0 0 1 5.7 0 4 4 0 0 1 0 5.7 4 4 0 0 1-5.7 0z"/></svg>' + '</button>',
 

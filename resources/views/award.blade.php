@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-3">
                     <img style="height: 100%; width: 100%;z-index: 10;"
-                         src="https://bonathea.sirv.com/Images/{!! $photo->filename !!}">
+                         src="{{env('SIRV_PATH')}}{!! $photo->filename !!}">
                 </div>
                 <div class="row">
                     <div class="col-12">
