@@ -46,6 +46,7 @@ class GalleryController extends Controller
         $category = $request->get('category');
         $award = $request->get('award');
         $type = $request->get('type');
+        $carver = $request->get('carver');
         $myCarving = $request->get('my_carving');
 
         $userQ = "1 as my_carvings";
@@ -59,7 +60,7 @@ class GalleryController extends Controller
             DB::raw('(SELECT count(id) FROM carving_data WHERE carving_data.carving_id = carvings.id ) as sort'),
             DB::raw($userQ)
         )
-            ->where(function ($query) use ($skill, $division, $category, $type, $myCarving) {
+            ->where(function ($query) use ($skill, $division, $category, $type, $myCarving, $carver) {
                 if ($skill) {
                     $query->where('skill', $skill);
                 }
@@ -70,7 +71,7 @@ class GalleryController extends Controller
                 if ($category) {
                     $query->where('category', $category);
                 }
-                if($type) {
+                if ($type) {
                     switch ($type) {
                         case "wood-carving":
                             $query->where('division', '!=', CarvingController::CATEGORY_S);
@@ -80,8 +81,11 @@ class GalleryController extends Controller
                             break;
                     }
                 }
-                if($myCarving && Auth::check()) {
+                if ($myCarving && Auth::check()) {
                     $query->where('user_id', '=', Auth::user()->id);
+                }
+                if($carver) {
+                    $query->where('user_id', '=', $carver);
                 }
             });
         if ($award) {
@@ -114,7 +118,12 @@ class GalleryController extends Controller
 
         $myCarving = false;
 
-        $data = compact('carvings', 'divisions', 'divisionsCategories', 'awards', 'types', 'myCarving');
+        $carvers = User::whereHas('carvings', function ($query) {
+            $query->where('carvings.id', '>', 0);
+        })->get()->all();
+
+
+        $data = compact('carvings', 'divisions', 'divisionsCategories', 'awards', 'types', 'myCarving', 'carvers');
 
         if (Auth::check()) {
             $user = Auth::user();

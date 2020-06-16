@@ -31,13 +31,18 @@
                             @endcomponent
                         </div>
 
+                        <div class="col-xs-12 col-md-3 margin-top-10">
+                            @component('components.Select.carver', compact('carvers'))
+                            @endcomponent
+                        </div>
+
                         @if(Auth::check())
                             <div class="col-xs-12 col-md-3 margin-top-10" style="padding-top: 8px;">
                                 {{Form::checkbox("my_carving", old('my_carving'), false)}} Show Only My Carvings
                             </div>
                         @endif
 
-                        <div class="col-xs-6 margin-top-10 @if(!Auth::check()) offset-md-3 @endif col-md-1">
+                        <div class="col-xs-6 margin-top-10 @if(!Auth::check()) @endif col-md-1">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa fa-search"></i>
                             </button>

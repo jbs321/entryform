@@ -3,9 +3,7 @@
 
     @foreach($divisions as $division)
         @if(!empty($division))
-            <option value="{{$division}}"
-                    @if (old("division") == $division) selected @endif
-            >{{$division}}</option>
+            <option value="{{$division}}" @if (old("division") == $division) selected @endif>{{$division}}</option>
         @endif
     @endforeach
 </select>
