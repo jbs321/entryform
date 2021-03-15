@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/minimal.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/minimal.css') }}" rel="stylesheet" type="text/css">
 
 
     <script src="{{ asset('js/app.js') }}"></script>
