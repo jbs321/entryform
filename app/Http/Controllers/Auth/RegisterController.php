@@ -84,8 +84,12 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function showRegistrationForm()
-    {
-        return redirect('login');
-    }
+//    /**
+//     * Hides the registration page
+//     * @return \Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+//     */
+//    public function showRegistrationForm()
+//    {
+//        return redirect('login');
+//    }
 }

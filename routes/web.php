@@ -8,7 +8,7 @@ use \App\Http\Middleware\checkRoleJudgeMiddleware;
 \Illuminate\Support\Facades\Auth::routes();
 
 
-//Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('/storage/{filename}', 'PhotoController@show');
 Route::get('/storage/{filename}/{size}', 'PhotoController@showWithSize');
 
@@ -64,5 +64,6 @@ Route::middleware(['auth', checkAdmin::class])->group(function () {
 });
 
 
-Route::get('/', 'GalleryController@welcome');
+//load once the registraiton period is over
+//Route::get('/', 'GalleryController@welcome');
 Route::get('/gallery', 'GalleryController@index');

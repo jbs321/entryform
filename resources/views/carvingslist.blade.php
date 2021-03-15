@@ -71,11 +71,11 @@ $carvings = $carvings->toArray();
     </div>
 
     <div class="card-footer">
-        @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
+{{--        @if(\Illuminate\Support\Facades\Auth::user()->is_admin)--}}
             <button type="button" class="btn btn-info animated infinite pulse" onclick="addCarving()">
                 Register New Carving
             </button>
-        @endif
+{{--        @endif--}}
 
         <?php if(count($carvings) > 0): ?>
         <a href="/carving/excel/{{\Illuminate\Support\Facades\Auth::user()->id}}">Download Excel</a>
