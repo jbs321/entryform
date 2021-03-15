@@ -65,7 +65,7 @@ $user = \Illuminate\Support\Facades\Auth::user();
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                Richmond Carvers - Carving Show 2020
+                Richmond Carvers - Carving Show 2021
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
