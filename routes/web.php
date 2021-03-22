@@ -5,6 +5,25 @@ use \App\Http\Middleware\checkAdmin;
 use \App\Http\Middleware\AuthorizeUserChangeMiddleware;
 use \App\Http\Middleware\checkRoleJudgeMiddleware;
 
+$client = new \Aws\S3\S3Client([
+    'version' => 'latest',
+    'region'  =>  'nyc3',
+    'endpoint' => 'nyc3.digitaloceanspaces.com',
+    'credentials' => [
+        'key'    => 'Q5SYAYGCHBZVDTBYXCBW',
+        'secret' => 'EoBMPCEOvpiZa2fMoT5TRVaoygpITX2q44RvO2KCnHE',
+    ],
+]);
+
+$client->putObject([
+    'Bucket' => 'entryform3',
+    'Key'    => 'file.ext',
+    'Body'   => 'The contents of the file.',
+    'ACL'    => 'private'
+]);
+
+die;
+
 \Illuminate\Support\Facades\Auth::routes();
 
 
@@ -31,6 +50,11 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([AuthorizeCarvingChangeMiddleware::class])->group(function () {
         Route::get('carving/{carving}/edit', 'CarvingController@edit');
     });
+
+    Route::post('/carving/{carving}/delete', 'CarvingController@delete');
+    Route::post('carving/{carving}/update', 'CarvingController@update');
+    Route::name('carving')->post('/carving', 'CarvingController@create');
+    Route::post('/storage/delete/{file}', 'PhotoController@delete');
 });
 
 
@@ -55,15 +79,29 @@ Route::middleware(['auth', checkAdmin::class])->group(function () {
     Route::post('/admin/carving/{carving}/update', 'CarvingController@update');
 
     Route::get('/admin/payments', 'PaymentController@show');
-
-
-    Route::post('/carving/{carving}/delete', 'CarvingController@delete');
-    Route::post('carving/{carving}/update', 'CarvingController@update');
-    Route::name('carving')->post('/carving', 'CarvingController@create');
-    Route::post('/storage/delete/{file}', 'PhotoController@delete');
 });
 
 
 //load once the registraiton period is over
 //Route::get('/', 'GalleryController@welcome');
 Route::get('/gallery', 'GalleryController@index');
+
+Route::get('/jacob', function() {
+
+    $client = new \Aws\S3\S3Client([
+        'version' => 'latest',
+        'region'  =>  'nyc3',
+        'endpoint' => 'nyc3.digitaloceanspaces.com',
+        'credentials' => [
+            'key'    => 'Q5SYAYGCHBZVDTBYXCBW',
+            'secret' => 'EoBMPCEOvpiZa2fMoT5TRVaoygpITX2q44RvO2KCnHE',
+        ],
+    ]);
+
+    $client->putObject([
+        'Bucket' => 'entryform3',
+        'Key'    => 'file.ext',
+        'Body'   => 'The contents of the file.',
+        'ACL'    => 'private'
+    ]);
+});
