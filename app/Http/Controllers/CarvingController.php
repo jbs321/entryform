@@ -316,7 +316,7 @@ class CarvingController extends Controller
             $carving->is_for_sale = ($carving->is_for_sale) ? "yes" : "no";
             $carving->user_id = $user['fname'] . " " . $user['lname'];
             $carving->division = substr($carving->division, 0, 1);
-            $carving->amount = "6";
+            $carving->amount = "8";
 
             if ($carving->division == self::CATEGORY_R ||
                 $carving->skill == "Student") {

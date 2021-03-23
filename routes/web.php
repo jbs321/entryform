@@ -65,24 +65,4 @@ Route::middleware(['auth', checkAdmin::class])->group(function () {
 
 //load once the registraiton period is over
 //Route::get('/', 'GalleryController@welcome');
-Route::get('/gallery', 'GalleryController@index');
-
-Route::get('/jacob', function() {
-
-    $client = new \Aws\S3\S3Client([
-        'version' => 'latest',
-        'region'  =>  'nyc3',
-        'endpoint' => 'nyc3.digitaloceanspaces.com',
-        'credentials' => [
-            'key'    => 'Q5SYAYGCHBZVDTBYXCBW',
-            'secret' => 'EoBMPCEOvpiZa2fMoT5TRVaoygpITX2q44RvO2KCnHE',
-        ],
-    ]);
-
-    $client->putObject([
-        'Bucket' => 'entryform3',
-        'Key'    => 'file.ext',
-        'Body'   => 'The contents of the file.',
-        'ACL'    => 'private'
-    ]);
-});
+//Route::get('/gallery', 'GalleryController@index');

@@ -41,7 +41,7 @@ class HomeController extends Controller
     }
 
     static function calcPrice(int $numCarvings = 0) {
-        $total = $numCarvings * 6;
+        $total = $numCarvings * 8;
         $sumPayments = Auth::user()->payments();
 
         $total -= $sumPayments;

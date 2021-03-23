@@ -93,7 +93,7 @@ class User extends Authenticatable
             return true;
         });
 
-        $price = $countable->count() * 6;
+        $price = $countable->count() * 8;
         return $price;
     }
 
