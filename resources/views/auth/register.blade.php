@@ -110,7 +110,7 @@
                             <label for="province" class="col-md-4 col-form-label text-md-right">{{ __('Province/State') }}</label>
 
                             <div class="col-md-6">
-                                <input id="province" type="text" class="form-control{{ $errors->has('province') ? ' is-invalid' : '' }}" name="province" value="{{ old('province') }}" placeholder="eg. British Colombia" required autofocus>
+                                <input id="province" type="text" class="form-control{{ $errors->has('province') ? ' is-invalid' : '' }}" name="province" value="{{ old('province') }}" placeholder="eg. BC" required autofocus>
 
                                 @if ($errors->has('province'))
                                     <span class="invalid-feedback">
