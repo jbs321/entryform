@@ -9,7 +9,7 @@
                     <ul>
                         <li>Entry must be received by May 27, 2021. - $8 per carving.</li>
 
-                        <li><a href="http://richmondcarvers.com/2020-carving-show">Prospectus</a></li>
+                        <li><a href="https://www.richmondcarvers.com/2021-carving-show">Prospectus</a></li>
                         <li>Student carvings - n/c.</li>
                     </ul>
 
