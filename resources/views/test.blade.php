@@ -7,7 +7,7 @@
                 <div class="card" style="padding: 20px">
                     <h1>Online Registration</h1>
                     <ul>
-                        <li>Entry must be received by May 28, 2020. - $6 per carving.</li>
+                        <li>Entry must be received by May 27, 2021. - $8 per carving.</li>
 
                         <li><a href="http://richmondcarvers.com">Prospectus</a></li>
                         <li>Student carvings - n/c.</li>

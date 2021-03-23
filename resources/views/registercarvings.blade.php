@@ -152,7 +152,7 @@ $price = (count($carvings)) * 6;
 
     </div>
 
-    <div class="card-footer" id="carving-price" style="font-weight: bold">Price: $6 CAD</div>
+    <div class="card-footer" id="carving-price" style="font-weight: bold">Price: $8 CAD</div>
 </div>
 <script>
   function onChangeDivision () {
@@ -202,7 +202,7 @@ $price = (count($carvings)) * 6;
         if ($(this).val() == 'Student') {
           $('#carving-price').html('Price: $0 CAD')
         } else {
-          $('#carving-price').html('Price: $6 CAD')
+          $('#carving-price').html('Price: $8 CAD')
         }
       })
 
@@ -210,7 +210,7 @@ $price = (count($carvings)) * 6;
       if ($(this).val() == 'R: Courtesy Carvings') {
         $('#carving-price').html('Price: $0 CAD')
       } else {
-        $('#carving-price').html('Price: $6 CAD')
+        $('#carving-price').html('Price: $8 CAD')
       }
     })
 
