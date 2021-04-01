@@ -20,6 +20,8 @@ $carvings = $carvings->toArray();
     <div class="card-header">
         {{ __('Registered Carvings') }}
         <?php if(0 != $price): ?>
+        <br>
+        <b>{{__('Please Register all the carvings before payment:')}}</b>
         <span style="font-weight: bold;float: right;">Payment Due: {!!$price !!} $ CAD <div
                     id="paypal-button"></div></span>
         <?php endif; ?>
