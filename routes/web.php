@@ -49,6 +49,9 @@ Route::middleware(['auth', checkAdmin::class])->group(function () {
     Route::get('carving/print/all', 'CarvingController@downloadCarvingsForAll');
     Route::get('/tickets', 'HomeController@showTicket');
 
+    Route::get('/', 'GalleryController@welcome');
+    Route::get('/gallery', 'GalleryController@index');
+
     Route::name('admin')->get('/admin', 'AdminController@viewDashboard');
 
     Route::get('/admin/user/{user}/edit', 'UserController@edit');
@@ -61,8 +64,3 @@ Route::middleware(['auth', checkAdmin::class])->group(function () {
 
     Route::get('/admin/payments', 'PaymentController@show');
 });
-
-
-//load once the registraiton period is over
-//Route::get('/', 'GalleryController@welcome');
-//Route::get('/gallery', 'GalleryController@index');
