@@ -49,7 +49,8 @@ Route::middleware(['auth', checkAdmin::class])->group(function () {
     Route::get('carving/print/all', 'CarvingController@downloadCarvingsForAll');
     Route::get('/tickets', 'HomeController@showTicket');
 
-    Route::get('/', 'GalleryController@welcome');
+    //Uncomment when registration period is over
+//    Route::get('/', 'GalleryController@welcome');
     Route::get('/gallery', 'GalleryController@index');
 
     Route::name('admin')->get('/admin', 'AdminController@viewDashboard');
