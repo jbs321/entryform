@@ -10,7 +10,7 @@ class AdminController extends Controller
 {
     public function viewDashboard()
     {
-        $users = User::all()->map(function(User $user) {
+        $users = User::all()->sortBy('fname')->map(function(User $user) {
             /** @var Carbon $pst */
             $pst =  Carbon::createFromFormat('Y-m-d H:i:s', $user->created_at, 'UTC');
             $pst->setTimezone('America/Los_Angeles');
