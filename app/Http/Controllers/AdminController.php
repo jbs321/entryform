@@ -10,7 +10,7 @@ class AdminController extends Controller
 {
     public function viewDashboard()
     {
-        $users = User::all()->sortBy('fname')->map(function(User $user) {
+        $users = User::all()->sortBy(['fname'])->map(function(User $user) {
             /** @var Carbon $pst */
             $pst =  Carbon::createFromFormat('Y-m-d H:i:s', $user->created_at, 'UTC');
             $pst->setTimezone('America/Los_Angeles');
@@ -18,7 +18,10 @@ class AdminController extends Controller
             return $user;
         });
 
-        $carvings = Carving::with('user')->orderBy('user.fname')->get();
+        $carvings = Carving::select('carvings.*')
+            ->join('users', 'carvings.user_id', '=', 'users.id')
+            ->orderBy('users.fname')
+            ->get();
 
         $categories = CarvingController::CATEGORIES;
 
