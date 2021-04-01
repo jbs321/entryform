@@ -18,7 +18,7 @@ class AdminController extends Controller
             return $user;
         });
 
-        $carvings = Carving::with('user')->get();
+        $carvings = Carving::with('user')->orderBy('fname')->get();
 
         $categories = CarvingController::CATEGORIES;
 
