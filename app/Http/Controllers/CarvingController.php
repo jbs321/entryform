@@ -213,8 +213,8 @@ class CarvingController extends Controller
 
     const AWARDS = [
         'First',
-        'BoD Beginner',
-        'BoS Beginner',
+//        'BoD Beginner',
+//        'BoS Beginner',
         'Honourable Mention',
 
         'Second',
