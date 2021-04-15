@@ -11,7 +11,6 @@ use \App\Http\Middleware\checkRoleJudgeMiddleware;
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/storage/{filename}', 'PhotoController@show');
 Route::get('/storage/{filename}/{size}', 'PhotoController@showWithSize');
-
 Route::get('/gallery/download/photo/{carving}', 'GalleryController@downloadImage');
 
 Route::middleware(['auth'])->group(function () {
@@ -36,32 +35,32 @@ Route::middleware(['auth'])->group(function () {
     Route::post('carving/{carving}/update', 'CarvingController@update');
     Route::name('carving')->post('/carving', 'CarvingController@create');
     Route::post('/storage/delete/{file}', 'PhotoController@delete');
+
+    Route::middleware([checkAdmin::class])->group(function () {
+        Route::get('carving/print/all', 'CarvingController@downloadCarvingsForAll');
+        Route::get('/tickets', 'HomeController@showTicket');
+
+        Route::get('/gallery', 'GalleryController@index');
+
+        Route::name('admin')->get('/admin', 'AdminController@viewDashboard');
+
+        Route::get('/admin/user/{user}/edit', 'UserController@edit');
+        Route::post('/admin/user/{user}/delete', 'UserController@delete');
+        Route::get('/admin/user/downloadExcel', 'UserController@downloadExcel');
+
+        Route::get('/admin/carving/{carving}/edit', 'CarvingController@edit');
+        Route::post('/admin/carving/{carving}/delete', 'CarvingController@delete');
+        Route::post('/admin/carving/{carving}/update', 'CarvingController@update');
+
+        Route::get('/admin/payments', 'PaymentController@show');
+    });
+
+    Route::middleware([checkRoleJudgeMiddleware::class])->group(function () {
+        //replacement
+        Route::get('/carving/{carving}/award', 'CarvingController@editAward');
+        Route::post('/carving/{carving}/award', 'CarvingController@saveAward');
+    });
 });
 
-
-Route::middleware(['auth', checkRoleJudgeMiddleware::class])->group(function () {
-    //replacement
-    Route::get('/carving/{carving}/award', 'CarvingController@editAward');
-    Route::post('/carving/{carving}/award', 'CarvingController@saveAward');
-});
-
-Route::middleware(['auth', checkAdmin::class])->group(function () {
-    Route::get('carving/print/all', 'CarvingController@downloadCarvingsForAll');
-    Route::get('/tickets', 'HomeController@showTicket');
-
-    //Uncomment when registration period is over
+//Uncomment when registration period is over
 //    Route::get('/', 'GalleryController@welcome');
-    Route::get('/gallery', 'GalleryController@index');
-
-    Route::name('admin')->get('/admin', 'AdminController@viewDashboard');
-
-    Route::get('/admin/user/{user}/edit', 'UserController@edit');
-    Route::post('/admin/user/{user}/delete', 'UserController@delete');
-    Route::get('/admin/user/downloadExcel', 'UserController@downloadExcel');
-
-    Route::get('/admin/carving/{carving}/edit', 'CarvingController@edit');
-    Route::post('/admin/carving/{carving}/delete', 'CarvingController@delete');
-    Route::post('/admin/carving/{carving}/update', 'CarvingController@update');
-
-    Route::get('/admin/payments', 'PaymentController@show');
-});

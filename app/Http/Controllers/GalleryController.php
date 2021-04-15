@@ -23,12 +23,12 @@ class GalleryController extends Controller
         'BoS Advanced',
         'BoS Intermediate',
         'BoS Novice',
-        'BoS Beginner',
+//        'BoS Beginner',
 
         'BoD Advanced',
         'BoD Intermediate',
         'BoD Novice',
-        'BoD Beginner',
+//        'BoD Beginner',
 
         'First',
         'Second',
