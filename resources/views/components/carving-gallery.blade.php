@@ -5,7 +5,7 @@
         @foreach($carvings as $carving)
             @foreach($carving->photos as $idx => $photo)
                 <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                    <a href="{{env('SIRV_PATH')}}Images/{{ $photo->filename }}"
+                    <a href="{{env('SIRV_PATH')}}{{ $photo->filename }}"
                        data-fancybox="carving"
                        data-title="{{$carving->description}}"
                        data-tag="{{$carving->id}}"
@@ -20,7 +20,7 @@
                         <img class="zoom img-fluid carving"
                              onerror="this.style.display='none'"
                              src=""
-                             data-src="{{env('SIRV_PATH')}}Images/{{ $photo->filename }}"
+                             data-src="{{env('SIRV_PATH')}}{{ $photo->filename }}"
                              data-errsrc="/storage/{{ $photo->filename }}"
                              alt="{{$carving->description}}">
 
