@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware([checkRoleJudgeMiddleware::class])->group(function () {
+        Route::get('/gallery', 'GalleryController@index');
+
         //replacement
         Route::get('/carving/{carving}/award', 'CarvingController@editAward');
         Route::post('/carving/{carving}/award', 'CarvingController@saveAward');
