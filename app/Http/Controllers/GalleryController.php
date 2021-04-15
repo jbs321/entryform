@@ -103,7 +103,7 @@ class GalleryController extends Controller
 
         $carvings->map(function (Carving &$carving) {
             $awards = $carving->awards->map(function (CarvingData $cd) {
-                return "<img class='ribbon-show' src='https://bonathea.sirv.com/ribbons/{$cd->value}.gif'>";
+                return "<img class='ribbon-show' src='https://entryform2.sfo3.digitaloceanspaces.com/ribbons/{$cd->value}.gif'>";
             })->toArray();
             $awards = implode("", $awards);
             $carving->awardsShow = $awards;
