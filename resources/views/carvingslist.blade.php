@@ -52,7 +52,7 @@ $carvings = $carvings->toArray();
                     <td>{!! $carving['category']!!}</td>
                     <td>{!! $carving['description'] !!}</td>
                     <td>{!! $carving['is_for_sale'] !!}</td>
-                    @if(\Illuminate\Support\Facades\Auth::user()->is_admin)
+{{--                    @if(\Illuminate\Support\Facades\Auth::user()->is_admin)--}}
                         <td>
                             <button type="button" class="btn btn-info"
                                     onclick="window.location = '{{'/carving/'.$carving['id'].'/edit'}}'"
@@ -65,7 +65,7 @@ $carvings = $carvings->toArray();
                             </form>
 
                         </td>
-                    @endif
+{{--                    @endif--}}
                 </tr>
             @endforeach
             </tbody>
