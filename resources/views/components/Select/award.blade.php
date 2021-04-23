@@ -5,7 +5,7 @@
         @endif
         <div class="col-md-3">
             <div class="checkbox">
-                <img src="{{env('SIRV_PATH')}}/images/ribbon/{{$award}}.gif" class="ribbon" style="height: 100px;z-index: 100;position: relative">
+                <img src="{{env('SIRV_PATH')}}images/ribbon/{{$award}}.gif" class="ribbon" style="height: 100px;z-index: 100;position: relative">
                 <label>{{Form::checkbox($award, $award, in_array($award, $selected))}} {{$award}}</label>
             </div>
         </div>
