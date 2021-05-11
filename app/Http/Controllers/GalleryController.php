@@ -105,7 +105,7 @@ class GalleryController extends Controller
 
 
         $cdnPath = env('SIRV_PATH');
-        $ribbonPath = $cdnPath ? "{$cdnPath}/ribbons" : "/images/ribbon";
+        $ribbonPath = $cdnPath ? "{$cdnPath}ribbons" : "/images/ribbon";
 
         $carvings->map(function (Carving &$carving) use ($ribbonPath) {
             $awards = $carving->awards->map(function (CarvingData $cd) use ($ribbonPath) {
