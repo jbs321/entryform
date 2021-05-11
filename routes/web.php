@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
 
         //replacement
         Route::get('/carving/{carving}/award', 'CarvingController@editAward');
+        Route::get('/carving/{carving}/award/{$photo}', 'CarvingController@editAward');
         Route::post('/carving/{carving}/award', 'CarvingController@saveAward');
     });
 });
