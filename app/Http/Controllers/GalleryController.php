@@ -59,9 +59,9 @@ class GalleryController extends Controller
         /** @var Collection $carvings */
         $carvings = Carving::select(
             'carvings.*',
-            DB::raw('(SELECT count(id) FROM carving_data WHERE carving_data.carving_id = carvings.id ) as sort'),
             DB::raw($userQ)
         )
+            ->leftjoin('carving_data', "carving_data.carving_id", "carvings.id")
             //Filter by skill/division/category/type/My Carvings/Carver's
             ->where(function ($query) use ($skill, $division, $category, $type, $myCarving, $carver) {
                 if ($skill) {
@@ -98,8 +98,8 @@ class GalleryController extends Controller
             });
         }
 
-        $carvings = $carvings->orderBy('my_carvings', 'desc')
-            ->orderBy('sort', 'desc')
+        $carvings = $carvings
+            ->orderByRaw('my_carvings desc, carving_data.value desc')
             ->with('photos')
             ->with('user')
             ->with('awards')
@@ -139,125 +139,6 @@ class GalleryController extends Controller
         }
 
         return view('gallery', $data);
-    }
-
-    public function debug(Request $request)
-    {
-        $request->flash();
-        $page = $request->get('page', 1);
-
-        $skill = $request->get('skill');
-        $division = $request->get('division');
-        $category = $request->get('category');
-        $award = $request->get('award');
-        $type = $request->get('type');
-        $carver = $request->get('carver');
-        $myCarving = $request->get('my_carving');
-
-        //Allow showing user carvings see "Show Only My Carvings" in /gallery page
-        $userQ = "1 as my_carvings";
-        if (Auth::check()) {
-            $userQ = "case when user_id = " . Auth::user()->id . " then 1 else 0 end as my_carvings";
-        }
-
-        /** @var Collection $carvings */
-        $carvings = Carving::select(
-            'carvings.user_id',
-            'carvings.skill',
-            'carvings.division',
-            'carvings.category',
-            'carvings.description',
-            'carvings.is_for_sale',
-            DB::raw('count(files.id) as sort'),
-            DB::raw($userQ)
-        )
-            ->leftjoin('files', "files.carving_id", "carvings.id")
-            ->groupBy(
-                "carvings.user_id",
-                "carvings.skill",
-                "carvings.division",
-                "carvings.category",
-                "carvings.description",
-                "carvings.is_for_sale"
-            )
-            //Filter by skill/division/category/type/My Carvings/Carver's
-            ->where(function ($query) use ($skill, $division, $category, $type, $myCarving, $carver) {
-                if ($skill) {
-                    $query->where('skill', $skill);
-                }
-                if ($division) {
-                    $query->where('division', $division);
-                }
-
-                if ($category) {
-                    $query->where('category', $category);
-                }
-                if ($type) {
-                    switch ($type) {
-                        case "wood-carving":
-                            $query->where('division', '!=', CarvingController::CATEGORY_S);
-                            break;
-                        case "wood-turning":
-                            $query->where('division', '=', CarvingController::CATEGORY_S);
-                            break;
-                    }
-                }
-                if ($myCarving && Auth::check()) {
-                    $query->where('user_id', '=', Auth::user()->id);
-                }
-                if($carver) {
-                    $query->where('user_id', '=', $carver);
-                }
-            });
-
-        if ($award) {
-            $carvings = $carvings->whereHas('awards', function ($query) use ($award) {
-                $query->where('value', $award);
-            });
-        }
-
-        $carvings = $carvings->orderBy('my_carvings', 'desc')
-            ->orderBy('sort', 'desc')
-            ->with('photos')
-            ->with('user')
-            ->with('awards')
-            ->paginate(8, ['*'], "page", $page);
-
-
-        $cdnPath = env('SIRV_PATH');
-        $ribbonPath = $cdnPath ? "{$cdnPath}/ribbons" : "/images/ribbon";
-
-        $carvings->map(function (Carving &$carving) use ($ribbonPath) {
-            $awards = $carving->awards->map(function (CarvingData $cd) use ($ribbonPath) {
-                return "<img class='ribbon-show' src='{$ribbonPath}/{$cd->value}.gif'>";
-            })->toArray();
-            $awards = implode("", $awards);
-            $carving->awardsShow = $awards;
-            return $carving;
-        });
-
-
-        $divisions = CarvingController::DIVISIONS;
-        $divisionsCategories = CarvingController::CATEGORIES;
-
-        $awards = self::AWARDS;
-        $types = CarvingController::TYPE;
-
-        $myCarving = false;
-
-        $carvers = User::whereHas('carvings', function ($query) {
-            $query->where('carvings.id', '>', 0);
-        })->orderBy('fname')->get()->all();
-
-
-        $data = compact('carvings', 'divisions', 'divisionsCategories', 'awards', 'types', 'myCarving', 'carvers');
-
-        if (Auth::check()) {
-            $user = Auth::user();
-            $data = array_merge($data, compact('user'));
-        }
-
-        return new JsonResponse($data);
     }
 
     public function downloadImage(Carving $carving)
