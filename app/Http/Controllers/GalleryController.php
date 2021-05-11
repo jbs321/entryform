@@ -162,10 +162,24 @@ class GalleryController extends Controller
 
         /** @var Collection $carvings */
         $carvings = Carving::select(
-            'carvings.*',
-            DB::raw('(SELECT count(id) FROM carving_data WHERE carving_data.carving_id = carvings.id ) as sort'),
+            'carvings.user_id',
+            'carvings.skill',
+            'carvings.division',
+            'carvings.category',
+            'carvings.description',
+            'carvings.is_for_sale',
+            DB::raw('count(files.id) as sort'),
             DB::raw($userQ)
         )
+            ->leftjoin('files', "files.carving_id", "carvings.id")
+            ->groupBy(
+                "carvings.user_id",
+                "carvings.skill",
+                "carvings.division",
+                "carvings.category",
+                "carvings.description",
+                "carvings.is_for_sale"
+            )
             //Filter by skill/division/category/type/My Carvings/Carver's
             ->where(function ($query) use ($skill, $division, $category, $type, $myCarving, $carver) {
                 if ($skill) {
@@ -221,6 +235,7 @@ class GalleryController extends Controller
             $carving->awardsShow = $awards;
             return $carving;
         });
+
 
         $divisions = CarvingController::DIVISIONS;
         $divisionsCategories = CarvingController::CATEGORIES;
