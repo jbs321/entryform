@@ -293,12 +293,12 @@ window.fancybox.defaults = {
 
     $('.fancybox-button.nominate').click(function(e) {
       e.preventDefault();
-      window.location.href = "/carving/" + carvingTag + "/award/" + photoTag;
+      window.location.href = "/carving/" + carvingTag + "/award";
     })
 
     $('.fancybox-button.download').click(function(e) {
       e.preventDefault();
-      var a = $("<a>").attr("href", "/gallery/download/photo/" + carvingTag)
+      var a = $("<a>").attr("href", "/gallery/download/photo/" + carvingTag + "/" + photoTag)
         .attr("download", "Carving.jpeg")
         .attr("style", "visibility:none")
         .appendTo("body");
