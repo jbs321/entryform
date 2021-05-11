@@ -11,7 +11,7 @@ use \App\Http\Middleware\checkRoleJudgeMiddleware;
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/storage/{filename}', 'PhotoController@show');
 Route::get('/storage/{filename}/{size}', 'PhotoController@showWithSize');
-Route::get('/gallery/download/photo/{carving}/{?phototag}', 'GalleryController@downloadImage');
+Route::get('/gallery/download/photo/{carving}/{phototag}', 'GalleryController@downloadImage');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
