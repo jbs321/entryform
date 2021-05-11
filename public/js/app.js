@@ -37307,11 +37307,9 @@ window.fancybox.defaults = {
     var carvingTag = $('.fancybox-slide--current img').attr('src').split('_')[2];
     var photoTag = $('.fancybox-slide--current img').attr('src').split('_')[3].split('.')[0];
 
-    photoTag = photoTag ? "/" + photoTag : "";
-
     $('.fancybox-button.nominate').click(function (e) {
       e.preventDefault();
-      window.location.href = "/carving/" + carvingTag + "/award" + photoTag;
+      window.location.href = "/carving/" + carvingTag + "/award/" + photoTag;
     });
 
     $('.fancybox-button.download').click(function (e) {

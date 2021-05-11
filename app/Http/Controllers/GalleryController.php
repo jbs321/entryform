@@ -139,9 +139,14 @@ class GalleryController extends Controller
         return view('gallery', $data);
     }
 
-    public function downloadImage(Carving $carving, File $file = null)
+    public function downloadImage(Carving $carving, int $file = null)
     {
-        $fileName = isset($file) && $file ? $file->filename : $carving->photos()->first()->filename;
+        if($file) {
+            $fileName = $carving->photos()->get()->toArray()[$file]['filename'];
+        } else {
+            $fileName = $carving->photos()->first()->filename;
+        }
+
         $image = $this->fetchImageResourceByPath(storage_path("app/app/public/$fileName"), 900);
 
         $canvasWidth = $image->getWidth();
