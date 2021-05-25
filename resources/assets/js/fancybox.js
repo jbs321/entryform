@@ -287,7 +287,6 @@ window.fancybox.defaults = {
   // See Documentation/API/Events for more information
   // Example:
   afterShow: function (instance, current) {
-    console.log('sdasdas');
     const carvingTag = $('.fancybox-slide--current img').attr('src').split('_')[2];
     let photoTag = $('.fancybox-slide--current img').attr('src').split('_')[3].split('.')[0];
 

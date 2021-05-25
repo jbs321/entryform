@@ -25,8 +25,6 @@
                              data-errsrc="/storage/{{ $photo->filename }}"
                              alt="{{$carving->description}}">
 
-
-                        @if($idx === 0)
                             @foreach($carving->awards as $idx => $award)
                                 <img class="ribbon" style="
                                         position: absolute;
@@ -35,7 +33,6 @@
                                         left: {{(-25 + $idx * 35)  . "px"}};
                                         top: -18px;" src="{{env('SIRV_PATH')}}ribbons/{{$award->value}}.gif" alt="">
                             @endforeach
-                        @endif
                     </a>
                 </div>
             @endforeach
