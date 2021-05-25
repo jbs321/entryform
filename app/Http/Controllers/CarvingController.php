@@ -213,23 +213,21 @@ class CarvingController extends Controller
 
     const AWARDS = [
         'First',
+        'Second',
+        'Third',
 //        'BoD Beginner',
 //        'BoS Beginner',
         'Honourable Mention',
 
-        'Second',
         'BoD Novice',
-        'BoS Novice',
-        'Best of Show',
-
-        'Third',
         'BoD Intermediate',
-        'BoS Intermediate',
-        'T P Award of Excellence',
-
+        'BoS Novice',
         'BoD Advanced',
+        'BoS Intermediate',
         'BoS Advanced',
         'BoS Expert',
+        'T P Award of Excellence',
+        'Best of Show',
     ];
 
     public function __construct(\Maatwebsite\Excel\Excel $excel)

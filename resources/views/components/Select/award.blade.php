@@ -1,6 +1,6 @@
 <div class="form-group row">
     @foreach($awards as $idx => $award)
-        @if($idx == 12)
+        @if(in_array($idx, [7]))
             <div class="col-md-3"></div>
         @endif
         <div class="col-md-3">
