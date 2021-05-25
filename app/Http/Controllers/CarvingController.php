@@ -221,8 +221,8 @@ class CarvingController extends Controller
 
         'BoD Novice',
         'BoD Intermediate',
-        'BoS Novice',
         'BoD Advanced',
+        'BoS Novice',
         'BoS Intermediate',
         'BoS Advanced',
         'BoS Expert',
