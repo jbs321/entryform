@@ -43,7 +43,10 @@ class GalleryController extends Controller
             Session::put('gallery', $request->all());
         } else {
             $old = Session::get('gallery');
-            $request->request->add($old);
+
+            if(isset($old) && !empty($old)) {
+                $request->request->add($old);
+            }
         }
 
         $request->flash();
