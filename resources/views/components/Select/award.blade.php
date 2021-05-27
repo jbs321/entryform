@@ -6,18 +6,21 @@
         <div class="col-md-3">
             <div class="checkbox">
                 <img src="{{env('SIRV_PATH')}}ribbons/{{$award}}.gif" class="ribbon" style="height: 100px;z-index: 100;position: relative">
-                <label>{{Form::checkbox($award, $award, in_array($award, $selected))}} {{$award}}</label>
+                <label>
+                    <input name={{$award}} value={{$award}} type="checkbox" <?= in_array($award, $selected) ? "checked='checked'" : "" ?>>
+                    {{$award}}
+                </label>
             </div>
         </div>
     @endforeach
 </div>
 
 <script>
-    $(() => {
-      $('.ribbon').hover(function () {
-        $(this).addClass('transition-cool')
-      }, function () {
-        $(this).removeClass('transition-cool')
-      })
-    })
+    // $(() => {
+    //   $('.ribbon').hover(function () {
+    //     $(this).addClass('transition-cool')
+    //   }, function () {
+    //     $(this).removeClass('transition-cool')
+    //   })
+    // })
 </script>

@@ -6,8 +6,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-3">
-                    <img style="height: 100%; width: 100%;z-index: 10;"
-                         src="{{env('SIRV_PATH')}}{!! $photo->filename !!}">
+                    <img src="{{env('SIRV_PATH')}}{!! $photo->filename !!}" style="height: 100%; width: 100%;z-index: 10;">
                 </div>
                 <div class="row">
                     <div class="col-12">
