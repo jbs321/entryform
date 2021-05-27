@@ -7,10 +7,10 @@ use App\CarvingData;
 use App\File;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
 
@@ -39,6 +39,13 @@ class GalleryController extends Controller
 
     public function index(Request $request)
     {
+        if(!empty($request->all())) {
+            Session::put('gallery', $request->all());
+        } else {
+            $old = Session::get('gallery');
+            $request->request->add($old);
+        }
+
         $request->flash();
         $page = $request->get('page', 1);
 

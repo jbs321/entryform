@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="container page-top">
-        <form action="/gallery" method="get">
+        <form action="/gallery" method="get" class="gallery-form">
             <div class="row form-group">
                 <div class="col-md-10 offset-1">
                     <div class="row">
@@ -42,9 +42,12 @@
                             </div>
                         @endif
 
-                        <div class="col-xs-6 margin-top-10 @if(!Auth::check()) @endif col-md-1">
+                        <div class="col-xs-6 margin-top-10 @if(!Auth::check()) @endif col-md-4">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa fa-search"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger clear-filter">
+                                Clear Search
                             </button>
                         </div>
                     </div>
@@ -69,6 +72,10 @@
       }
 
       $(function () {
+        $('.clear-filter').click(function() {
+          $('form.gallery-form').find("input[type=text], select").val("");
+          $('form.gallery-form').find("input[type=checkbox]").prop('checked', false);
+        });
         $('.zoom').hover(function () {
           $(this).addClass('transition')
         }, function () {
