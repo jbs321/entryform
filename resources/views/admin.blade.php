@@ -5,6 +5,36 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card" style="margin-bottom: 30px;">
+                    <div class="card-header">Admin Dashboard</div>
+                    <div class="card-body" style="padding: 0;">
+                        <div style="overflow-y: scroll;max-height: 600px">
+                            <table class="table table-striped" style="margin: 0">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Control</th>
+                                    <th scope="col">Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td scope="row">Registration</td>
+                                    <td scope="row">{{env('ENTRYFORM_REGISTRATION', 1) ? "On" : "Off"}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                @include('userslist', compact('users'));
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card" style="margin-bottom: 30px;">
                     <div class="card-header">
                         Admin Dashboard - <a target="_blank" href="/carving/print/all">
                             Download Excel
@@ -41,10 +71,15 @@
                                         <td>{!! $carving->description !!}</td>
                                         <td>{!! $carving->is_for_sale ? "Yes" : "No" !!}</td>
                                         <td>
-                                            <button type="button" class="btn btn-info" onclick="window.location = '{{'/admin/carving/'. $carving->id .'/edit'}}'" style="float: left">Edit</button>
+                                            <button type="button" class="btn btn-info"
+                                                    onclick="window.location = '{{'/admin/carving/'. $carving->id .'/edit'}}'"
+                                                    style="float: left">Edit
+                                            </button>
                                             <form action="{{'/admin/carving/'. $carving->id .'/delete'}}" method="POST">
                                                 @csrf
-                                                <button type="submit" class="btn btn-danger" style="float: left">Delete</button>
+                                                <button type="submit" class="btn btn-danger" style="float: left">
+                                                    Delete
+                                                </button>
                                             </form>
 
                                         </td>

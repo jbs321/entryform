@@ -52,20 +52,26 @@ $carvings = $carvings->toArray();
                     <td>{!! $carving['category']!!}</td>
                     <td>{!! $carving['description'] !!}</td>
                     <td>{!! $carving['is_for_sale'] !!}</td>
-{{--                    @if(\Illuminate\Support\Facades\Auth::user()->is_admin)--}}
-                        <td>
-                            <button type="button" class="btn btn-info"
-                                    onclick="window.location = '{{'/carving/'.$carving['id'].'/edit'}}'"
-                                    style="float: left">Edit
-                            </button>
+                    <td>
+                        <button type="button" class="btn btn-info"
+                                onclick="window.location = '{{'/carving/'.$carving['id'].'/edit'}}'"
+                                style="float: left">
+                            @if( env('ENTRYFORM_REGISTRATION', 1) || \Illuminate\Support\Facades\Auth::user()->is_admin)
+                                Edit
+                            @else
+                                View
+                            @endif
+
+                        </button>
+                        @if( env('ENTRYFORM_REGISTRATION', 1) || \Illuminate\Support\Facades\Auth::user()->is_admin)
                             <form action="/carving/{!! $carving['id'] !!}/delete" method="POST" style="float: left">
                                 {{csrf_field()}}
                                 <input type="hidden" value="{{$carving['id']}}" name="id" id="id">
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
+                        @endif
 
-                        </td>
-{{--                    @endif--}}
+                    </td>
                 </tr>
             @endforeach
             </tbody>
@@ -73,11 +79,11 @@ $carvings = $carvings->toArray();
     </div>
 
     <div class="card-footer">
-{{--        @if(\Illuminate\Support\Facades\Auth::user()->is_admin)--}}
+        @if( env('ENTRYFORM_REGISTRATION', 1) || \Illuminate\Support\Facades\Auth::user()->is_admin)
             <button type="button" class="btn btn-info animated infinite pulse" onclick="addCarving()">
                 Register New Carving
             </button>
-{{--        @endif--}}
+        @endif
 
         <?php if(count($carvings) > 0): ?>
         <a href="/carving/excel/{{\Illuminate\Support\Facades\Auth::user()->id}}">Download Excel</a>
@@ -86,11 +92,11 @@ $carvings = $carvings->toArray();
 </div>
 
 <script>
-  function addCarving () {
-    $('.add-carving').css('display', 'block')
+  function addCarving() {
+    $('.add-carving').css('display', 'block');
     $('html, body').animate({
       scrollTop: $('.add-carving').offset().top
-    }, 1000)
+    }, 1000);
   }
 
   $(function () {
@@ -124,7 +130,7 @@ $carvings = $carvings->toArray();
           application_context: {
             'shipping_preference': 'NO_SHIPPING'
           },
-        })
+        });
       },
       // Execute the payment
       onAuthorize: function (data, actions) {
@@ -139,13 +145,13 @@ $carvings = $carvings->toArray();
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
           }).then(function () {
-            window.location.replace('/')
-          })
+            window.location.replace('/');
+          });
 
           // Show a confirmation message to the buyer
-          window.alert('Thank you for your purchase!')
-        })
+          window.alert('Thank you for your purchase!');
+        });
       }
-    }, '#paypal-button')
-  })
+    }, '#paypal-button');
+  });
 </script>

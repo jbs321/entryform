@@ -15,8 +15,9 @@
 
                     <h5>Tech support:</h5>
                     <ul>
-                        <li><b>Mike Cohene</b> (604) 961-0063 <a href="mailto:mcohene@gmail.com">mcohene@gmail.com</a></li>
-                        <li><b>Dave Price</b>  (778) 707-0057 <a href="dbp843@gmail.com">dbp843@gmail.com</a></li>
+                        <li><b>Mike Cohene</b> (604) 961-0063 <a href="mailto:mcohene@gmail.com">mcohene@gmail.com</a>
+                        </li>
+                        <li><b>Dave Price</b> (778) 707-0057 <a href="dbp843@gmail.com">dbp843@gmail.com</a></li>
                     </ul>
                 </div>
             </div>
@@ -24,7 +25,9 @@
         <div class="row justify-content-center">
             <div class="col-xs-12 col-md-10">
                 @include('carvingslist')
-                @include('registercarvings')
+                @if( env('ENTRYFORM_REGISTRATION', 1) || \Illuminate\Support\Facades\Auth::user()->is_admin)
+                    @include('registercarvings')
+                @endif
             </div>
         </div>
     </div>

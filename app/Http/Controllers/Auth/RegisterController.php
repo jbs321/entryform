@@ -84,12 +84,16 @@ class RegisterController extends Controller
         ]);
     }
 
-//    /**
-//     * Hides the registration page
-//     * @return \Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-//     */
-//    public function showRegistrationForm()
-//    {
-//        return redirect('login');
-//    }
+    /**
+     * Hides the registration page
+     * @return \Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function showRegistrationForm()
+    {
+        if(env('ENTRYFORM_REGISTRATION', 1)) {
+            return view('auth.register');
+        }
+
+        return redirect('login');
+    }
 }

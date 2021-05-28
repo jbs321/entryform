@@ -4,8 +4,9 @@ use \App\Http\Middleware\AuthorizeCarvingChangeMiddleware;
 use \App\Http\Middleware\checkAdmin;
 use \App\Http\Middleware\AuthorizeUserChangeMiddleware;
 use \App\Http\Middleware\checkRoleJudgeMiddleware;
+use \Illuminate\Support\Facades\Auth;
 
-\Illuminate\Support\Facades\Auth::routes();
+Auth::routes();
 
 
 Route::get('/', 'HomeController@index')->name('home');
@@ -15,7 +16,6 @@ Route::get('/gallery/download/photo/{carving}/{phototag}', 'GalleryController@do
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
-
 
     //User protected Routes
     Route::middleware([AuthorizeUserChangeMiddleware::class])->group(function () {
