@@ -156,10 +156,10 @@ window.fancybox.defaults = {
       '</svg>' +
       '</button>',
 
-    // nominate:
-    //   '<a data-fancybox-nominate class="fancybox-button nominate" title="Award" href="#">' +
-    //   '<img src="/images/trophy.svg" alt="Nominate">' +
-    //   '</a>',
+    nominate:
+      '<a data-fancybox-nominate class="fancybox-button nominate" title="Award" href="#">' +
+      '<img src="/images/trophy.svg" alt="Nominate">' +
+      '</a>',
 
     download:
       '<a class="fancybox-button download" style="width: 173px;"  title="{{DOWNLOAD}}" href="#">' +

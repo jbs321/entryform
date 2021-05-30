@@ -138,7 +138,7 @@ class GalleryController extends Controller
 
         $carvers = User::whereHas('carvings', function ($query) {
             $query->where('carvings.id', '>', 0);
-        })->orderBy('fname')->get()->all();
+        })->get()->all();
 
 
         $data = compact('carvings', 'divisions', 'divisionsCategories', 'awards', 'types', 'myCarving', 'carvers');
