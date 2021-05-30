@@ -124,7 +124,7 @@ class GalleryController extends Controller
             ->with('photos')
             ->with('user')
             ->with('awards')
-            ->paginate(8, ['*'], "page", $page);
+            ->paginate(9, ['*'], "page", $page);
 
 
 
