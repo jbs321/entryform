@@ -9,8 +9,9 @@
             </div>
 
             <div class="col-12 margin-top-100 vw-1-6">
-                <div>Over {{$carvings}} Carvings</div>
-                <div>Over {{$carvers}} Artists</div>
+                <div>{{$carvings}} Carvings</div>
+                <div>116 Artists</div>
+                <div>12 Countries</div>
             </div>
             <div class="col-12 margin-top-60">
                 <button class="btn btn-1 btn-1a" onclick="goToGallery()">Gallery</button>
