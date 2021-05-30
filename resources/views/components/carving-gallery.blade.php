@@ -9,8 +9,7 @@
                        data-fancybox="carving"
                        data-title="{{$carving->description}}"
                        data-tag="{{$carving->id}}"
-                       data-caption='<div><b>Tag No.</b>: {{$carving->id}}</div><div><b>From</b>: {{implode(", ", array_filter([$carving->user->country, $carving->user->city]))}}</div><div><b>Skill</b>: {{$carving->skill}}</div><div><b>Divison</b>: {{$carving->division}}</div><div><b>Category</b>: {{$carving->category}}</div><div class="carving-description">{{$carving->description}}</div><div class="ribbon-show-wrapper">{{$carving->awardsShow}}</div>'
-{{--                       data-caption='<div><b>Tag No.</b>: {{$carving->id}}</div><div><b>Artist</b>: {{$carving->user->fname . " " . $carving->user->lname}}</div><div><b>From</b>: {{implode(", ", array_filter([$carving->user->country, $carving->user->city]))}}</div><div><b>Skill</b>: {{$carving->skill}}</div><div><b>Divison</b>: {{$carving->division}}</div><div><b>Category</b>: {{$carving->category}}</div><div class="carving-description">{{$carving->description}}</div><div class="ribbon-show-wrapper">{{$carving->awardsShow}}</div>'--}}
+                       data-caption='<div><b>Tag No.</b>: {{$carving->id}}</div><div><b>Artist</b>: {{$carving->user->fname . " " . $carving->user->lname}}</div><div><b>From</b>: {{implode(", ", array_filter([$carving->user->country, $carving->user->city]))}}</div><div><b>Skill</b>: {{$carving->skill}}</div><div><b>Divison</b>: {{$carving->division}}</div><div><b>Category</b>: {{$carving->category}}</div><div class="carving-description">{{$carving->description}}</div><div class="ribbon-show-wrapper">{{$carving->awardsShow}}</div>'
                        rel="ligthbox">
                         <div class="skeleton-loader">
                             <div class="avatar"></div>

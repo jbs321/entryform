@@ -71,6 +71,8 @@ class GalleryController extends Controller
             'carvings.*',
             DB::raw($userQ)
         )
+            ->leftjoin('carving_data', 'carving_data.carving_id', '=', 'carvings.id')
+            ->orderBy('carving_data.priority', 'desc')
             //Filter by skill/division/category/type/My Carvings/Carver's
             ->where(function ($query) use ($skill, $division, $category, $type, $myCarving, $carver) {
                 if ($skill) {

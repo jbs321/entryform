@@ -230,6 +230,22 @@ class CarvingController extends Controller
         'Best of Show',
     ];
 
+    const AWARD_PRIORITY = [
+        'Best of Show' => 13,
+        'T P Award of Excellence' => 12,
+        'BoS Expert' => 11,
+        'BoS Advanced' => 10,
+        'BoS Intermediate' => 9,
+        'BoS Novice' => 8,
+        'BoD Advanced' => 7,
+        'BoD Intermediate' => 6,
+        'BoD Novice' => 5,
+        'First' => 4,
+        'Second' => 3,
+        'Third' => 2,
+        'Honourable Mention' => 1,
+    ];
+
     public function __construct(\Maatwebsite\Excel\Excel $excel)
     {
         $this->excel = $excel;
@@ -414,6 +430,7 @@ class CarvingController extends Controller
                     "carving_id" => $carving->id,
                     "carving_data_type_id" => 1,
                     "value" => $item,
+                    "priority" => self::AWARD_PRIORITY[$item]
                 ];
             }
         }

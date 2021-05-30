@@ -56,8 +56,6 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware([checkRoleJudgeMiddleware::class])->group(function () {
-        Route::get('/gallery', 'GalleryController@index');
-
         //replacement
         Route::get('/carving/{carving}/award', 'CarvingController@editAward');
         Route::post('/carving/{carving}/award', 'CarvingController@saveAward');
@@ -65,4 +63,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 //Uncomment when registration period is over
-//    Route::get('/', 'GalleryController@welcome');
+    Route::get('/gallery', 'GalleryController@index');
+    Route::get('/', 'GalleryController@welcome');
