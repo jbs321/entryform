@@ -7,6 +7,7 @@ use App\CarvingData;
 use App\File;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -68,11 +69,21 @@ class GalleryController extends Controller
 
         /** @var Collection $carvings */
         $carvings = Carving::select(
-            'carvings.*',
+            'carvings.id',
+            'carvings.user_id',
+            'carvings.skill',
+            'carvings.division',
+            'carvings.category',
+            'carvings.description',
+            'carvings.is_for_sale',
+            DB::raw('sum(carving_data.priority) as priority'),
             DB::raw($userQ)
         )
             ->leftjoin('carving_data', 'carving_data.carving_id', '=', 'carvings.id')
-            ->orderBy('carving_data.priority', 'desc')
+            ->orderBy('priority', 'desc')
+            ->groupBy(DB::raw('carvings.id, carvings.user_id, carvings.skill, carvings.division, carvings.category, carvings.description, carvings.is_for_sale'))
+
+
             //Filter by skill/division/category/type/My Carvings/Carver's
             ->where(function ($query) use ($skill, $division, $category, $type, $myCarving, $carver) {
                 if ($skill) {
@@ -116,6 +127,7 @@ class GalleryController extends Controller
             ->paginate(8, ['*'], "page", $page);
 
 
+
         $cdnPath = env('SIRV_PATH');
         $ribbonPath = $cdnPath ? "{$cdnPath}ribbons" : "/images/ribbon";
 
@@ -147,6 +159,8 @@ class GalleryController extends Controller
             $user = Auth::user();
             $data = array_merge($data, compact('user'));
         }
+
+//        return new JsonResponse($carvings);
 
         return view('gallery', $data);
     }
