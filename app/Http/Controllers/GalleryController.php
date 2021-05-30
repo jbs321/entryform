@@ -76,7 +76,7 @@ class GalleryController extends Controller
             'carvings.category',
             'carvings.description',
             'carvings.is_for_sale',
-            DB::raw('max(carving_data.priority) as priority'),
+            DB::raw('COALESCE(max(carving_data.priority), 0) as priority'),
             DB::raw($userQ)
         )
             ->leftjoin('carving_data', 'carving_data.carving_id', '=', 'carvings.id')
