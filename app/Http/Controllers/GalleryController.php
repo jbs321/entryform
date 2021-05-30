@@ -69,7 +69,7 @@ class GalleryController extends Controller
 
         /** @var Collection $carvings */
         $carvings = Carving::select(
-            'carvings.id',
+            DB::raw('distinct carvings.id'),
             'carvings.user_id',
             'carvings.skill',
             'carvings.division',
@@ -150,7 +150,7 @@ class GalleryController extends Controller
 
         $carvers = User::whereHas('carvings', function ($query) {
             $query->where('carvings.id', '>', 0);
-        })->get()->all();
+        })->orderBy('fname')->get()->all();
 
 
         $data = compact('carvings', 'divisions', 'divisionsCategories', 'awards', 'types', 'myCarving', 'carvers');
