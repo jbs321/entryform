@@ -15,7 +15,7 @@ Route::get('/storage/{filename}/{size}', 'PhotoController@showWithSize');
 Route::get('/gallery/download/photo/{carving}/{phototag}', 'GalleryController@downloadImage');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', 'HomeController@index')->name('home');
+//    Route::get('/', 'HomeController@index')->name('home');
 
     //User protected Routes
     Route::middleware([AuthorizeUserChangeMiddleware::class])->group(function () {
@@ -53,6 +53,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/admin/carving/{carving}/update', 'CarvingController@update');
 
         Route::get('/admin/payments', 'PaymentController@show');
+
+
+//        Route::get('summernoteeditor', 'AdminController@getSummernoteeditor');
+        Route::post('note', 'AdminController@saveNote');
+
     });
 
     Route::middleware([checkRoleJudgeMiddleware::class])->group(function () {

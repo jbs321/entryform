@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Carving;
+use App\Summernote;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -29,8 +31,9 @@ class HomeController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $carvings = $user->carvings;
+        $note = DB::table('summernotes')->latest("id")->first();
 
-        return view('home', ['carvings' => $carvings]);
+        return view('home', ['carvings' => $carvings, 'note' => $note->content ?? '']);
     }
 
     public function showTicket()

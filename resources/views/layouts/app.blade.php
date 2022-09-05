@@ -53,6 +53,9 @@ $user = \Illuminate\Support\Facades\Auth::user();
       gtag('config', 'UA-167953053-1');
     </script>
 
+
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.js"></script>
 </head>
 
 <style>
@@ -65,7 +68,7 @@ $user = \Illuminate\Support\Facades\Auth::user();
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                Richmond Carvers - Carving Show 2022
+                Richmond Carvers - Carving Show {!! date("Y") !!}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
