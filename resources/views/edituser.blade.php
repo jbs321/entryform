@@ -123,6 +123,46 @@
                             </div>
                         </div>
 
+                        @if (\Illuminate\Support\Facades\Auth::user()->is_admin)
+
+                        <div class="form-group row">
+                            <label for="is_admin" class="col-md-4 col-form-label text-md-right">{{ __('Is Administrator') }}</label>
+
+                            <div class="col-md-6">
+                                <input type="checkbox" id="is_admin" name="is_admin" value="{!! $user->is_admin !!}" {{$user->is_admin ? "checked='true'" : ''}}">
+
+                                @if ($errors->has('is_admin'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('is_admin') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="user_role" class="col-md-4 col-form-label text-md-right">{{ __('User Role') }}</label>
+
+                            <div class="col-md-6">
+                                {!! Form::select('user_role', [
+                                       1  => "Visitor",
+                                       10 => "Judge",
+                                       20 => "Admin",
+                                ], $user->user_role,  [
+                                    "id"            => "role",
+                                    "autofocus"     => "autofocus",
+                                    "class"         => "form-control",
+                                ])!!}
+
+                                @if ($errors->has('user_role'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('user_role') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        @endif
+
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

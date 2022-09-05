@@ -1,7 +1,7 @@
 <div class="card" style="margin-bottom: 30px;">
     <div class="card-header">{{ __('Registered Users') }} <a href="/admin/user/downloadExcel">Download Excel</a></div>
     <div class="card-body" style="overflow-y: scroll;height: 300px;padding: 0;">
-            <table class="table table-striped" style="margin: 0">
+            <table class="table table-striped" id="user-list-table" style="margin: 0">
                 <thead>
                 <tr>
                     <th scope="col">Full Name</th>

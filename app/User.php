@@ -31,6 +31,8 @@ class User extends Authenticatable
         'province',
         'postal_code',
         'phone_number',
+        'is_admin',
+        'user_role',
     ];
 
     /**

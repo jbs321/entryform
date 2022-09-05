@@ -18,10 +18,14 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        if (!$request->is_admin) {
+            $user->is_admin = false;
+        }
+
         $user->fill($request->all());
         $user->save();
 
-        return view('home');
+        return redirect('admin');
     }
 
     public function delete(User $user)
