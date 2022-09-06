@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="card col-8 offset-2" style="padding:0;">
+            <div class="card col-10 offset-1" style="padding:0;">
                 <div class="payments" style="margin-bottom: 30px;">
                     <div class="card-header">
                         Payments History

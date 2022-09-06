@@ -82,7 +82,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="province" class="col-md-4 col-form-label text-md-right">{{ __('Province') }}</label>
+                            <label for="province" class="col-md-4 col-form-label text-md-right">{{ __('Province/State') }}</label>
 
                             <div class="col-md-6">
                                 <input id="province" type="text" class="form-control{{ $errors->has('province') ? ' is-invalid' : '' }}" name="province" value="{{ $user->province }}" placeholder="eg. BC" required autofocus>
@@ -113,7 +113,7 @@
                             <label for="phone_number" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phone_number" type="text" class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}" name="phone_number" value="{{ $user->phone_number }}" placeholder="eg. 7788820753" required autofocus>
+                                <input id="phone_number" type="text" class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}" name="phone_number" value="{{ $user->phone_number }}" placeholder="eg. 123-456-7899" required autofocus>
 
                                 @if ($errors->has('phone_number'))
                                     <span class="invalid-feedback">
