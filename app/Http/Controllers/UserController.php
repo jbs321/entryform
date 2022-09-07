@@ -18,9 +18,8 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $user->is_admin = !$request->is_admin ? false : true;
-
         $user->fill($request->all());
+        $user->is_admin = !$request->is_admin ? false : true;
         $user->save();
 
         return redirect('admin');
