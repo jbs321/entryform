@@ -129,7 +129,7 @@
                             <label for="is_admin" class="col-md-4 col-form-label text-md-right">{{ __('Is Administrator') }}</label>
 
                             <div class="col-md-6">
-                                <input type="checkbox" id="is_admin" name="is_admin" value="{!! $user->is_admin !!}" {{$user->is_admin ? "checked='true'" : ''}}">
+                                <input type="checkbox" id="is_admin" name="is_admin" value="is_admin" {{$user->is_admin ? "checked='true'" : ''}}">
 
                                 @if ($errors->has('is_admin'))
                                     <span class="invalid-feedback">
