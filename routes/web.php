@@ -69,5 +69,5 @@ Route::middleware(['auth'])->group(function () {
 
     //Uncomment when registration period is over
     Route::get('/gallery', 'GalleryController@index');
-//    Route::get('/', 'GalleryController@welcome');
+    Route::get('/', 'GalleryController@welcome');
 });
