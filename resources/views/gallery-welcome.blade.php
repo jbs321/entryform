@@ -5,7 +5,7 @@
         <div class="row padding-left-20">
             <div class="col-12" style="float: left;margin-top: 100px;height: 100px">
                 <h1>Richmond Carvers</h1>
-                <h2>Virtual Carving Show 2021</h2>
+                <h2>Virtual Carving Show 2022</h2>
             </div>
 
             <div class="col-12 margin-top-100 vw-1-6">
