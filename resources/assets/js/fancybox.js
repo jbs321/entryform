@@ -156,10 +156,10 @@ window.fancybox.defaults = {
       '</svg>' +
       '</button>',
 
-    nominate:
-      '<a data-fancybox-nominate class="fancybox-button nominate" title="Award" href="#">' +
-      '<img src="/images/trophy.svg" alt="Nominate">' +
-      '</a>',
+    // nominate:
+      // '<a data-fancybox-nominate class="fancybox-button nominate" title="Award" href="#">' +
+      // '<img src="/images/trophy.svg" alt="Nominate">' +
+      // '</a>',
 
     download:
       '<a class="fancybox-button download" style="width: 173px;"  title="{{DOWNLOAD}}" href="#">' +
@@ -290,10 +290,10 @@ window.fancybox.defaults = {
     const carvingTag = $('.fancybox-slide--current img').attr('src').split('_')[2];
     let photoTag = $('.fancybox-slide--current img').attr('src').split('_')[3].split('.')[0];
 
-    $('.fancybox-button.nominate').click(function(e) {
-      e.preventDefault();
-      window.location.href = "/carving/" + carvingTag + "/award";
-    })
+    // $('.fancybox-button.nominate').click(function(e) {
+    //   e.preventDefault();
+    //   window.location.href = "/carving/" + carvingTag + "/award";
+    // })
 
     $('.fancybox-button.download').click(function(e) {
       e.preventDefault();
