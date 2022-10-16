@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid" style="height: 100%">
-        <div class="row padding-left-20">
+        <div class="row padding-left-20" style="color: white">
             <div class="col-12" style="float: left;margin-top: 100px;height: 100px">
                 <h1>Richmond Carvers</h1>
                 <h2>Virtual Carving Show 2022</h2>
