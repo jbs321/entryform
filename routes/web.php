@@ -6,7 +6,7 @@ use \App\Http\Middleware\AuthorizeUserChangeMiddleware;
 use \App\Http\Middleware\checkRoleJudgeMiddleware;
 use \Illuminate\Support\Facades\Auth;
 
-Auth::routes();
+//Auth::routes();
 
 
 Route::get('/', 'HomeController@index')->name('home');
