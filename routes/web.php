@@ -65,9 +65,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/carving/{carving}/award', 'CarvingController@editAward');
         Route::post('/carving/{carving}/award', 'CarvingController@saveAward');
     });
-
-
-    //Uncomment when registration period is over
-    Route::get('/gallery', 'GalleryController@index');
-    Route::get('/', 'GalleryController@welcome');
 });
+
+//Uncomment when registration period is over
+Route::get('/gallery', 'GalleryController@index');
+Route::get('/', 'GalleryController@welcome');
